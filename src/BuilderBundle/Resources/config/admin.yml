@@ -1,0 +1,96 @@
+services:
+    app.admin.menu:
+        class: BuilderBundle\Admin\MenuAdmin
+        arguments: [~, BuilderBundle\Entity\Menu, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Menus" }
+        public: true
+
+    app.admin.menu_page:
+        class: BuilderBundle\Admin\Menu_PageAdmin
+        arguments: [~, BuilderBundle\Entity\Menu_Page, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, show_in_dashboard: false, group: 'Site' }
+        public: true
+
+    app.admin.page:
+        class: BuilderBundle\Admin\PageAdmin
+        arguments: [~, BuilderBundle\Entity\Page, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Pages" }
+        public: true
+
+    app.admin.content:
+        class: BuilderBundle\Admin\ContentAdmin
+        arguments: [~, BuilderBundle\Entity\Content, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Contenus" }
+        public: true
+
+    app.admin.page_content:
+        class: BuilderBundle\Admin\Page_ContentAdmin
+        arguments: [~, BuilderBundle\Entity\Page_Content, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: 'Site', show_in_dashboard: false}
+        public: true
+
+    app.admin.form:
+        class: BuilderBundle\Admin\F_FormAdmin
+        arguments: [~, BuilderBundle\Entity\F_Form, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Formulaires" }
+        public: true
+    app.admin.form_field:
+        class: BuilderBundle\Admin\F_FormFieldAdmin
+        arguments: [~, BuilderBundle\Entity\F_FormField, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Form_Field" }
+        public: true
+    app.admin.form_field_rights:
+        class: BuilderBundle\Admin\F_FormFieldRightsAdmin
+        arguments: [~, BuilderBundle\Entity\F_FormFieldRights, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", show_in_dashboard: false}
+        public: true
+    app.admin.field:
+        class: BuilderBundle\Admin\F_FieldAdmin
+        arguments: [~, BuilderBundle\Entity\F_Field, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Champs" }
+        public: true
+    app.admin.field_type:
+        class: BuilderBundle\Admin\F_FieldTypeAdmin
+        arguments: [~, BuilderBundle\Entity\F_FieldType, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Type de champs" }
+        public: true
+
+    app.admin.carousel:
+        class: BuilderBundle\Admin\CarouselAdmin
+        arguments: [~, BuilderBundle\Entity\Carousel, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Site", label: "Carousel" }
+        public: true
+        
+    app.admin.dblog:
+        class: BuilderBundle\Admin\DBLogAdmin
+        #arguments: [~, BuilderBundle\Entity\DBLog, BuilderBundle\Controller\MigrationCRUDController]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Outil, label: DBLog }
+        arguments:
+            - null
+            - BuilderBundle\Entity\DBLog
+            - BuilderBundle:DBLogCRUD
+        calls:
+            - [ setTranslationDomain , [AdminStoreReceiptReceiptBundle]]
+        public: true
+
+    app.admin.dblogcorrespondence:
+        class: BuilderBundle\Admin\DBLogCorrespondenceAdmin
+        arguments: [~, BuilderBundle\Entity\DBLogCorrespondence, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Outil, label: MigrationID }
+        public: true
+
+    import.csvtoarray:
+        class: BuilderBundle\Services\ConvertCsvToArray

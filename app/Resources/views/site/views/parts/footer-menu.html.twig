@@ -1,0 +1,16 @@
+{% if links is empty %}
+    {% set links = [
+    { "path": 'qui-sommes-nous', "title": 'Qui sommes-nous ?' },
+    { "path": 'faq', "title": 'FAQ' },
+    { "path": 'charte-du-site', "title": 'Charte du site' },
+    { "path": 'presse', "title": 'Presse'},
+    { "path": 'mentions-legales', "title": 'Mentions légales' },
+    { "path": 'contact', "title": 'Contact'  }
+    ] %}
+{% endif %}
+
+{% for link in links %}
+    <li {{ app.request.get('_route') == link.path ? 'class="active"' }}>
+        <a href="{{ path('site_buildpage', { 'slug': link.path}) }}" title="{{link.title}}">{{ link.title }}</a>
+    </li>
+{% endfor %}

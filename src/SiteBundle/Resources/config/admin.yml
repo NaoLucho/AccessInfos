@@ -1,0 +1,37 @@
+# Site services for administration:
+
+services:
+  app.admin.g_list:
+    class: BuilderBundle\Admin\G_ListAdmin
+    arguments: [~, BuilderBundle\Entity\G_List, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Métier", label: "Listes" }
+    public: true
+      
+  app.admin.g_listitem:
+    class: BuilderBundle\Admin\G_ListItemAdmin
+    arguments: [~, BuilderBundle\Entity\G_ListItem, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, show_in_dashboard: false, group: 'Métier' }
+    public: true
+
+  app.admin.article:
+    class: SiteBundle\Admin\ArticleAdmin
+    arguments: [~, SiteBundle\Entity\Article, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Métier", label: "Articles" }
+    public: true
+
+  app.admin.comment:
+    class: SiteBundle\Admin\CommentAdmin
+    arguments: [~, SiteBundle\Entity\Comment, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Métier", label: "Commentaires" }
+    public: true
+
+  app.admin.lien:
+    class: SiteBundle\Admin\LienAdmin
+    arguments: [~, SiteBundle\Entity\Lien, ~]
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Métier", label: "Liens" }
+    public: true

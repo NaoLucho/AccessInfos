@@ -1,0 +1,62 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern:            /admin(.*)
+            context:            user
+            form_login:
+                provider:       fos_userbundle
+                login_path:     /admin/login
+                use_forward:    false
+                check_path:     /admin/login_check
+                failure_path:   null
+                default_target_path: /admin
+            logout:
+                path:           /admin/logout
+                target:         /admin/login
+            anonymous:          true
+
+        main:
+            pattern:             .*
+            context:             user
+            # form_login:
+            #     provider:       fos_userbundle
+            #     login_path:     /login
+            #     use_forward:    false
+            #     check_path:     fos_user_security_check
+            #     failure_path:   /home
+            form_login:
+                login_path:     /login/page
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                check_path: fos_user_security_check
+                success_handler: app.security.authentication_handler
+                failure_handler: app.security.authentication_handler
+                default_target_path: /home #not work???
+            logout:
+                path: /logout
+                target: homepage
+            anonymous:          true
+            remember_me:
+                secret: %secret% # %secret% est un paramètre de parameter
+                lifetime: 604800 # 1 semaine
+                path: /home # redirection vers l'accueil
+
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~

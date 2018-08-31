@@ -1,0 +1,30 @@
+{% if links is empty %}
+    {% set links = [
+    { "path": 'sciences-participatives', "title": 'Sciences participatives' },
+    { "path": 'ecosysteme', "title": 'Ecosystème' },
+    { "path": 'actus', "title": 'Actus' },
+    { "path": 'ressources', "title": 'Ressources' },
+    { "path": 'communaute', "title": 'Communauté' },
+    
+    ] %}
+{% endif %}
+{# Liens pour le menu principal #}
+{% for link in links %}
+    <li {{ app.request.get('_route') == link.path ? 'class="active"' }}
+        {{ link.path == 'espace-pro' ? 'class="espacepro-link"' }}>
+        <a href="{{ path('site_buildpage', { 'slug': link.path}) }}" title="{{link.title}}">{{ link.title }}</a>
+    </li>
+{% endfor %}
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <li class="espacepro-link">
+        <a href="{{ path('site_buildpage', { 'slug': 'profile' }) }}">{{ app.user.firstname }}</a>
+    </li>
+    <li class="active">
+        <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+    </li>
+{% else %}
+    <li class="espacepro-link">
+        <a href="{{ path('site_login') }}" type="button" data-toggle="modal" data-target="#modalLogin">Connexion</a>
+    </li>
+{% endif %}

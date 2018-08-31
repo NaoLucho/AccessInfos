@@ -1,0 +1,31 @@
+{% extends template_repo ~'/views/templates/default.html.twig' %} {# Template par defaut #}
+{% set title = 'Contactez-nous' %} {# Titre de la page - header-mea & tab du navigateur #}
+{% set imageHero = 'VisuelContact.jpg' %} {# Nom de l'image pour le hero de la page #}
+
+{% block body %}
+
+  {# Content = Contient tout ce qui concerne le contenu des pages #}
+  <form action="#" method="post">
+    <div class="row">
+      <div class="form-group col-md-6">
+        <label for="name" class="control-label">Nom</label>
+        <input type="text" id="name" name="name" class="form-control">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="email" class="control-label">Email <span class="required">*</span></label>
+        <input type="email" id="email" name="email" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="objet" class="control-label">Objet</label>
+      <input type="text" id="objet" name="objet" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="message">Message <span class="required">*</span></label>
+      <textarea name="message" id="message" class="form-control" cols="30" rows="10" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success btn-lg btn-block mt-5">Envoyer</button>
+    <p class="mt-5"><span class="required">*</span> Champs obligatoires</p>
+  </form>
+
+{%  endblock %}

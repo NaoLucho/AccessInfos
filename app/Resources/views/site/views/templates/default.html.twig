@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}SiteBuilder{% endblock %}</title>
+	<meta name="description" content={% block seoDescription %}"Site Builder, Créateur de site, par Louis Watrin"{% endblock %} />
+  <meta name="keywords" content={% block seoKeywords %}"default, keywords"{% endblock %} />
+
+  {% block stylesheets %}
+    {# Include du fichier style #}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/css/select2/select2_bootstrap.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset( template_repo ~ '/assets/css/open.min.css') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
+
+    {% stylesheets '@ApplicationSonataUserBundle/Resources/public/css/main.css' %}
+      <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {# {% stylesheets '@SiteBundle/Resources/public/css/tree.css' %}
+      <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %} #}
+
+  {% endblock %}
+
+  {% block javascripts %}
+    <script src="//code.jquery.com/jquery-3.1.1.js"></script>
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    {# <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> #}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="{{ asset( template_repo ~ '/assets/js/owl.carousel.js') }}"></script>{# CREE UNE ERREUR JS #}
+    <script src="{{ asset( template_repo ~ '/assets/js/open.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chosen_v1.8.2/chosen.jquery.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="https://openlayers.org/en/v4.6.4/build/ol.js" type="text/javascript"></script>
+  {% endblock %}
+</head>
+<body>
+
+  {# Include du header (logo + navigation) #}
+  {% include  template_repo ~ "/views/parts/header.html.twig" %}
+
+  <main role="main">
+    {# Hero page type default = Bloc photo + titre - A titre d'exemple pour le moment #}
+    {% if page.slug is defined and page.slug == 'home' %}
+      {% include  template_repo ~ "/views/parts/homeCarousel.html.twig" %}  {#//LOUIS Desactivation: pas de template fourni #}
+    {% elseif pageType is defined and pageType == 'structure-observatoire' %}
+      {% include template_repo ~ "/views/parts/structure-observatoire.html.twig" %}
+    {% elseif pageType is defined and pageType == 'profil-pro' %}
+      {% include template_repo ~ "/views/parts/hero-profil.html.twig" %}
+    {% else %}
+      {% include  template_repo ~ "/views/parts/hero-page.html.twig" %}
+    {% endif %}
+    {# Fin du Hero page type default #}
+
+    <div class="container content">
+      {% block messages %}
+        {% if app.request.hasPreviousSession %}
+          {% for type, messages in app.session.flashBag.all %}
+            {% for message in messages %}
+              <div class="{{ type }}">
+                {{ message|trans({}, 'FOSUserBundle') }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% endblock %}
+
+      {# Apparait seulement si fos_user est appelé #}
+      {% block fos_user_content %}
+      {% endblock %}
+
+      <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="login">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            {% block fos_user_login %}{% endblock fos_user_login %}
+          </div>
+        </div>
+      </div>
+
+      {% block body %}{% endblock %}
+    </div>
+  </main>
+
+  {# Include du footer (newsletter + navigation) #}
+  {% include  template_repo ~ "/views/parts/footer.html.twig" %}
+  {# Include modal login #}
+  {# {% include  template_repo ~ "/views/parts/login.html.twig" %}  //LOUIS Desactivation: besoin d'intégrer notre login?  #}
+  {# Include JS scripts #}
+  {# <script src="{{ asset( template_repo ~ '/assets/js/open.min.js') }}"></script> #}
+
+</body>
+</html>

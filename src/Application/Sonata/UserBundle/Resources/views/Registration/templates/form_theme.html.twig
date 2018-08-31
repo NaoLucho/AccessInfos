@@ -1,0 +1,11 @@
+{# {% block _fos_user_registration_form_cgu_widget %}
+    <div class="checkbox">
+        <label for="{{ id }}">
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} 
+                value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} 
+            />
+        </label>
+        Validation des <a href="#" id="cgu_button" type="button" data-toggle="modal" data-target="#cguModal">CGU</a>
+         & de la <a href="{{ path('site_buildpage', { 'slug': 'charte-du-site' }) }}">Charte du Site</a>
+    </div>
+{% endblock %} #}

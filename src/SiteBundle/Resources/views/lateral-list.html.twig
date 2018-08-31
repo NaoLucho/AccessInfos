@@ -1,0 +1,18 @@
+{% if listArticles is not empty %}
+<div class="info-page">{{ title }}</div>
+    <hr class="my-2">
+{% for article in listArticles %}
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-row">
+            <div class="div-illustration">    
+                <img class="icon-illustration" src="{{ vich_uploader_asset(article, 'photoFile') }}" alt="{{ article.title }}">
+            </div>
+            <a href="{{ path('site_buildpageid',{'slug':'article', 'id': (article.slug is empty? article.id:article.slug)}) }}">
+                {{ article.title }}
+            </a>
+        </div>
+        <span class="info-date text-right">{{ article.publishedAt | date('d-m-Y') }}</span>
+    </div>
+    <hr class="my-2">
+{% endfor %}
+{% endif %}

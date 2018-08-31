@@ -1,0 +1,17 @@
+{% if listLiens is not empty %}
+    <div class="info-page">Liens</div>
+    <hr class="my-2"> 
+    {% for lien in listLiens %}
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row">
+                <div class="div-illustration">
+                    <img class="icon-illustration" src="{{ vich_uploader_asset(lien, 'imageFile') }}" alt="{{ lien.title }}">
+                </div>
+                <a href="{{lien.url}}" rel="me" title="{{ lien.info }}" target="_blank">
+                    {{ lien.title }}
+                </a>
+            </div>
+        </div>
+        <hr class="my-2"> 
+    {% endfor %} 
+{% endif %}

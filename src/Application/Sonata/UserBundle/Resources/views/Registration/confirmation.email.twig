@@ -1,0 +1,23 @@
+{% block subject %}Activation de votre compte{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Bonjour {{ user.username }} !
+
+Vous pouvez activer votre compte en cliquant sur le lien suivant : {{ confirmationUrl }}
+
+En vous remerciant,
+
+Administrateur du site
+
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{#
+    You can of course render the html directly here.
+    Including a template as done here allows keeping things DRY by using
+    the template inheritance in it
+#}
+{# {% include 'email/password_resetting.html.twig' %} #}
+{% endblock %}

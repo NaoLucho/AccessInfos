@@ -1,0 +1,38 @@
+<header class="header">
+    <div class="container">
+        <div class="brand">
+            {# Logo #}
+            <a href="{{path('site_home')}}" class="logo">
+                <span>Site</span>
+                <span>Site Builder</span>
+            </a>
+            {# Fin du Logo #}
+            <a href="#" class="toggleMenu hidden-md hidden-lg">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+                <span class="visible-sm">Menu</span>
+            </a>
+        </div>
+        <nav class="mainNav"> {# Menu principal #}
+            <span class="closeMenu visible-xs">
+                <i class="glyphicon glyphicon-remove"></i>
+            </span>
+            <a href="#" class="closeMenu--sm hidden-xs hidden-md hidden-lg">
+                <i class="glyphicon glyphicon-remove"></i>
+                <span class="visible-sm">Menu</span>
+            </a>
+            <ul>
+                {% set links = [ { "path": '#', "title": 'Sciences participatives' }, { "path": '#', "title": 'Ecosystème', "class": 'active'
+                }, { "path": '#', "title": 'Actus' }, { "path": '#', "title": 'Communauté' }, { "path": '#', "title": 'Ressources'
+                }, { "path": '#', "title": 'Espace Pro', "class": 'espacepro-link' } ] %} {# { "path": 'sciences-participatives',
+                "title": 'Sciences participatives' }, { "path": 'ecosysteme', "title": 'Ecosystème', "class": 'active' },
+                { "path": 'actus', "title": 'Actus' }, { "path": 'communaute', "title": 'Communauté' }, { "path": 'ressources',
+                "title": 'Ressources' }, { "path": 'espace-pro', "title": 'Espace Pro', "class": 'espacepro-link' } #} {#
+                Liens pour le menu principal #} {% for link in links %}
+                <li {% if link.class is defined %} class="{{link.class}}" {% endif %}>
+                    <a href="{{ link.path }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</header>

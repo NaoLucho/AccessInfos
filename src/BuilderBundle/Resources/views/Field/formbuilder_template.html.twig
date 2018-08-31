@@ -1,0 +1,730 @@
+{# COPY OF bootstrap_3_layout.html.twig pour modifier des contenus: #}
+{% use "form_div_layout.html.twig" %}
+
+{# Widgets #}
+
+{% block form_widget_simple -%}
+    {% if (type is not defined or type not in ['file', 'hidden']) and attr is defined %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) -%}
+    {% endif %}
+    {{ parent() }}
+{% endblock form_widget_simple %}
+
+{% block textarea_widget -%}
+    {% set parentdivclass = '' %}
+    {% for attrname,attrvalue in attr %}
+        {% if attrname == 'parent-div-class' %}
+            {% set parentdivclass = attrvalue %}
+        {% endif %}
+    {% endfor %}
+    
+    {% if parentdivclass is not empty %}
+        <div class="{{parentdivclass}}">
+    {% endif %}
+
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{ parent() }}
+
+    {% if parentdivclass is defined %}
+        </div>
+    {% endif %}
+{%- endblock textarea_widget %}
+
+{% block button_widget %}
+    {% set attr = attr|merge({class: (attr.class|default('btn-default') ~ ' btn')|trim}) %}
+    {{ parent() }}
+{%- endblock %}
+
+{% block money_widget -%}
+    <div class="input-group">
+        {% set append = money_pattern starts with '{{' %}
+        {% if not append %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+        {{ block('form_widget_simple') }}
+        {% if append %}
+            <span class="input-group-addon">{{ money_pattern|replace({ '{{ widget }}':''}) }}</span>
+        {% endif %}
+    </div>
+{%- endblock money_widget %}
+
+{% block percent_widget %}
+    <div class="input-group">
+        {{ block('form_widget_simple') }}
+        <span class="input-group-addon">%</span>
+    </div>
+{%- endblock percent_widget %}
+
+{% block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date, { datetime: true } ) -}}
+            {{- form_widget(form.time, { datetime: true } ) -}}
+        </div>
+    {%- endif %}
+{%- endblock datetime_widget %}
+
+{% block date_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        {% if datetime is not defined or not datetime -%}
+            <div {{ block('widget_container_attributes') -}}>
+        {%- endif %}
+            {{- date_pattern|replace({
+                '{{ year }}': form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}': form_widget(form.day),
+            })|raw -}}
+        {% if datetime is not defined or not datetime -%}
+            </div>
+        {%- endif -%}
+    {% endif %}
+{%- endblock date_widget %}
+
+{% block time_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        {% if datetime is not defined or false == datetime -%}
+            <div {{ block('widget_container_attributes') -}}>
+        {%- endif -%}
+        {{- form_widget(form.hour) }}{% if with_minutes %}:{{ form_widget(form.minute) }}{% endif %}{% if with_seconds %}:{{ form_widget(form.second) }}{% endif %}
+        {% if datetime is not defined or false == datetime -%}
+            </div>
+        {%- endif -%}
+    {% endif %}
+{%- endblock time_widget %}
+
+{%- block dateinterval_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{- block('form_widget_simple') -}}
+    {%- else -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-inline')|trim}) -%}
+        <div {{ block('widget_container_attributes') }}>
+            {{- form_errors(form) -}}
+            <div class="table-responsive">
+                <table class="table {{ table_class|default('table-bordered table-condensed table-striped') }}">
+                    <thead>
+                    <tr>
+                        {%- if with_years %}<th>{{ form_label(form.years) }}</th>{% endif -%}
+                        {%- if with_months %}<th>{{ form_label(form.months) }}</th>{% endif -%}
+                        {%- if with_weeks %}<th>{{ form_label(form.weeks) }}</th>{% endif -%}
+                        {%- if with_days %}<th>{{ form_label(form.days) }}</th>{% endif -%}
+                        {%- if with_hours %}<th>{{ form_label(form.hours) }}</th>{% endif -%}
+                        {%- if with_minutes %}<th>{{ form_label(form.minutes) }}</th>{% endif -%}
+                        {%- if with_seconds %}<th>{{ form_label(form.seconds) }}</th>{% endif -%}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        {%- if with_years %}<td>{{ form_widget(form.years) }}</td>{% endif -%}
+                        {%- if with_months %}<td>{{ form_widget(form.months) }}</td>{% endif -%}
+                        {%- if with_weeks %}<td>{{ form_widget(form.weeks) }}</td>{% endif -%}
+                        {%- if with_days %}<td>{{ form_widget(form.days) }}</td>{% endif -%}
+                        {%- if with_hours %}<td>{{ form_widget(form.hours) }}</td>{% endif -%}
+                        {%- if with_minutes %}<td>{{ form_widget(form.minutes) }}</td>{% endif -%}
+                        {%- if with_seconds %}<td>{{ form_widget(form.seconds) }}</td>{% endif -%}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            {%- if with_invert %}{{ form_widget(form.invert) }}{% endif -%}
+        </div>
+    {%- endif -%}
+{%- endblock dateinterval_widget -%}
+
+{% block choice_widget_collapsed -%}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control')|trim}) %}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block choice_widget_expanded -%}
+    {% if '-inline' in label_attr.class|default('') -%}
+        {%- for child in form %}
+            {{- form_widget(child, {
+                parent_label_class: label_attr.class|default(''),
+                translation_domain: choice_translation_domain,
+            }) -}}
+        {% endfor -%}
+    {%- else -%}
+        <div {{ block('widget_container_attributes') }}>
+        {% set classRadioMultiple = '' %}
+            {% if 'multiple-radio-buttons' in attr.childclass|default('') -%}
+                {% set classRadioMultiple = 'multiple-radio-buttons' %}
+            {%- endif %}
+        {% set columnsize = -1 %}
+            {% if attr.columnsize is defined -%}
+                {% set columnsize = attr.columnsize %}
+            {%- endif %}
+            {% if classRadioMultiple is not empty %}
+                <div class={{ classRadioMultiple }}>
+            {%- endif %}
+            {% if columnsize > 0 %}
+                <div class="col-sm-6">
+            {%- endif %}
+            {%- for child in form %}
+                {# {{dump(child)}} #}
+                {{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+                {% if columnsize > 0 and loop.index is divisible by(columnsize) %}
+                </div>
+                <div class="col-sm-6">
+                {% endif %}
+            {% endfor -%}
+            {% if columnsize > 0 %}
+                </div>
+            {% endif %}
+            {% if classRadioMultiple is not empty%}
+                </div>
+            {%- endif %}
+        </div>
+    {%- endif %}
+{%- endblock choice_widget_expanded %}
+
+{# REMPLACER DANS LA PARTIE SPECIFIC
+{% block checkbox_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% if 'checkbox-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {% else -%}
+        <div class="checkbox">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- endif %}
+{%- endblock checkbox_widget %} #}
+
+{# {% block radio_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% if 'radio-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {% else -%}
+        <div class="radio">
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- endif %}
+{%- endblock radio_widget %} #}
+
+{# Labels #}
+
+{# REMPLACER DANS LA PARTIE SPECIFIC
+{% block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label %} #}
+
+{% block choice_label -%}
+{# <div>choice_label</div> #}
+    {# remove the checkbox-inline and radio-inline class, it's only useful for embed labels #}
+    {%- set label_attr = label_attr|merge({class: label_attr.class|default('')|replace({'checkbox-inline': '', 'radio-inline': ''})|trim}) -%}
+    {{- block('form_label') -}}
+{% endblock %}
+
+{% block checkbox_label -%}
+    {%- set label_attr = label_attr|merge({'for': id}) -%}
+
+    {{- block('checkbox_radio_label') -}}
+{%- endblock checkbox_label %}
+
+{% block radio_label -%}
+{# <div>radio_label</div> #}
+    {%- set label_attr = label_attr|merge({'for': id}) -%}
+
+    {{- block('checkbox_radio_label') -}}
+{%- endblock radio_label %}
+
+{% block checkbox_radio_label %}
+{# <div>checkbox_radio_label</div> #}
+    {# Do not display the label if widget is not defined in order to prevent double label rendering #}
+    {% if widget is defined %}
+        {# {% if required %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %} #}
+        {# {% if parent_label_class is defined %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) %}
+        {% endif %} #}
+        {% if label is not same as(false) and label is empty %}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{- widget|raw }} {{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}
+        </label>
+    {% endif %}
+{% endblock checkbox_radio_label %}
+
+{# Rows #}
+
+{% block form_row -%}
+<div class="clearfix"></div>
+ {# {{dump(form)}} #}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        <div class="clearfix"></div>{{- form_errors(form) -}}
+        
+    </div>
+{%- endblock form_row %}
+
+{% block button_row -%}
+    <div class="form-group">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row %}
+
+{% block choice_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock choice_row %}
+
+{% block date_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock date_row %}
+
+{% block time_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock time_row %}
+
+{% block datetime_row -%}
+    {% set force_error = true %}
+    {{- block('form_row') }}
+{%- endblock datetime_row %}
+
+{% block checkbox_row -%}
+    <div class="form-group{% if not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock checkbox_row %}
+
+{% block radio_row -%}
+    <div class="form-group{% if not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock radio_row %}
+
+{# Errors #}
+
+{% block form_errors -%}
+    {% if errors|length > 0 %}
+    {# {{dump(errors)}} #}
+        {% if form is not rootform %}
+            <span class="help-block">
+                <ul class="list-unstyled">
+                {# AFFICHER SEULEMENT LA PREMIERE pour éviter les doublons {%- for error in errors -%} #}
+                    <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ errors[0].message }}</li>
+                {# {%- endfor -%} #}
+                </ul>
+            </span>
+        {% else %}
+            {# {{dump(errors)}} #}
+            {# <div class="alert alert-danger">{{ errormessage }} #}
+            {# Formulaire invalide, veuillez corriger les champs indiqués par <span class="glyphicon glyphicon-exclamation-sign"> #}
+            {# </div> #}
+        {% endif %}
+    {% endif %}
+{%- endblock form_errors %}
+
+
+{# ############# SPECIFIC TEMPLATES ADDED ############## #}
+
+{# Correction d'un probleme avec la class "checkbox": #}
+{% block checkbox_widget -%}
+    {# {{ dump(attr) }} #}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% if 'checkbox-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {% else -%}
+        {# <div class="checkbox"> class "checkbox" deleted: #}<div>
+            {{- form_label(form, null, { widget: parent() }) -}}
+        </div>
+    {%- endif %}
+{%- endblock checkbox_widget %}
+
+{% block radio_widget -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {% if 'radio-inline' in parent_label_class %}
+        {{- form_label(form, null, { widget: parent() }) -}}
+    {% else -%}
+        <div>
+            {{- parent() -}}
+            {{- block('form_label') -}}
+            {# {{- form_label(form, null, { widget: parent() }) -}} #}
+        </div>
+    {%- endif %}
+{%- endblock radio_widget %}
+
+{# BuilderBundle/views/Field #}
+{% block form_label -%}
+    {# {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%} #}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ '')|trim}) -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {# {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%} #}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% if label_attr %}{% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}{% endif %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
+        {% if required and form.parent.parent is null %}
+            <sup>*</sup>
+        {%- endif -%}
+        {# {% if help|default %} #}
+            {% for attrname,attrvalue in attr %}
+                {% if attrname == 'help' %}
+                    <span class="form_info">{{ attrvalue }}</span>
+                {% endif %}
+            {% endfor %}
+        </label>
+    {%- endif -%}
+            
+    {# {% endif %} #}
+{%- endblock form_label %}
+
+
+
+{% block table_objectives_widget %} {# for type P_ProgramObjectiveType #}
+{% spaceless %}
+    {# <small>Classer de 1 à 3 afin de prioriser les objectifs de votre programme (ex aequo possible)</small> #}
+    <div class="collection">
+        {{ form_errors(form) }}
+        <div {{ block('widget_container_attributes') }} class="col-xs-12 mt-1 table-responsive">
+        
+              <table class="table table-bordered table-notation">
+                <tbody>
+                    {# <tr>
+                        <th>
+                            Objectif
+                        </th>
+                        <th>
+                            Priorité
+                        </th>
+                    </tr> #}
+
+                {% for rows in form %}
+                    <tr>
+                        {# name="form[objectives][0][objective]" #}
+                        {# <td> {{- block('objective_widget') -}} </td> #}
+                        {# <td >{{ form_widget(rows.objective) }}</td> #}
+                        {# <td>{{ dump(rows.objective)}}</td> #}
+                        {# <td>valueID = {{rows.objective.vars.value }}
+                        /valueName={{ rows.objective.vars.data.name}}
+                        /name={{ rows.objective.vars.full_name}}</td>#}
+                        <td>
+                        <input type="hidden" value="{{rows.objective.vars.value }}" name="{{ rows.objective.vars.full_name}}"/>
+                        {{ rows.objective.vars.data.name}}</td>
+                        <td>{{ form_widget(rows.priority) }}</td>
+                    <tr>
+                
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock table_objectives_widget %}
+
+{% block table_nb_by_year_widget %} {# for type TableNbByYearType #}
+{% spaceless %}
+    <div class="collection col-xs-12 table-responsive mt-1">
+        <div {{ block('widget_container_attributes') }}>
+            {{ form_errors(form) }}
+            {# {% for attrname,attrvalue in attr %}
+                {% if attrname == 'help' %}
+                    <span class="help-block">{{ attrvalue }}</span>
+                {% endif %}
+            {% endfor %} #}
+            <table class="table table-bordered table-notation vertical">
+                <tbody>
+                <tr>
+                {% for nbByYear in form %}
+                    <td class="text-center">
+                    {{ nbByYear.vars.data.year}}
+                    {# {{dump(nbByYear.vars)}} #}
+                    {# {{ form_widget(nbByYear.year) }} HIDDEN 
+                    <input id="form_nbSubscriberByYear_0_year" name="form[nbSubscriberByYear][0][year]" required="required" value="2009" type="number">#}
+                    <input id="{{ nbByYear.vars.id}}_year" name="{{ nbByYear.vars.full_name}}[year]" required="required" value="{{ nbByYear.vars.data.year}}" type="hidden">
+                    </td>
+                {% endfor %}
+                </tr>
+                <tr>
+                {% for nbByYear in form %}
+                    {% set attr = attr|merge({class: (attr.class|default('') ~ ' mt-4')|trim}) -%}
+                    <td>
+                    {# {{dump(nbByYear.vars.data)}} #}
+                    {# {{ form_widget(nbByYear.nb) }} #}
+                    <input id="{{ nbByYear.vars.id}}_nb" name="{{ nbByYear.vars.full_name}}[nb]"  value="{{(nbByYear.vars.data.nb is not null)?nbByYear.vars.data.nb:0}}" type="number" min="0" required>
+                    </td>
+                {% endfor %}
+                <tr>
+                </tbody>
+            
+            </table>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock table_nb_by_year_widget %}
+
+{% block _form_taxons_widget -%}
+    <div {{ block('widget_container_attributes') }}>
+    {% set columnsize = -1 %}
+        {% if attr.columnsize is defined -%}
+            {% set columnsize = attr.columnsize %}
+        {%- endif %}
+        {% set numcol = 0 %}
+        {% set needclosecolumn = false %}
+        {% set parent_node = "0" %}
+        {%- for child in form %}
+            {% set numcol = numcol + 1 %}
+            {% if child.vars.value in ["10","76","81"] %} 
+            {# TOBETTER / MIS EN DUR: 10=ANNIMAUX 76=Végétaux 81=Champignons & lichens #}
+                {% set parent_node = child.vars.value %}
+                {% if loop.index > 1 and needclosecolumn %}
+                    </div>
+                {% set columnsize = 2 %} {# 1er temps column size =7 puis 2 #}
+                {%- endif %}
+                
+                <div class="col-xs-12 mt-1 parent_taxon">
+                    <div class="large-item">
+                        {{ form_widget(child, {
+                            parent_label_class: label_attr.class|default(''),
+                            'attr':  {
+                                'parent': 'true',
+                                'onclick': 'selectTaxaChildren(this, "' ~ child.vars.value ~ '")'
+                            }
+                        }) }}
+
+                    </div>
+                </div>
+                {% set numcol = 0 %}
+
+            {%- else %}
+                {% if columnsize > 0 and numcol % columnsize == 1%}
+                    {% set needclosecolumn = true %}
+                    <div class="col-sm-6 child_taxon">
+                {%- endif %}
+
+                {{ form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    'attr': {'parent': parent_node }     
+                }) }}
+
+                {% if columnsize > 0 and numcol is divisible by(columnsize) %}
+                    {% set needclosecolumn = false %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor -%}
+
+        {# {% if columnsize > 0 %}
+            endColifnot</div>
+        {% endif %} #}
+    </div>
+{%- endblock _form_taxons_widget %}
+
+{% block _form_seasons_widget -%}
+    {# {{dump(form)}} {{dump(form.vars.value)}} #}
+    <div class="col-xs-12 mt-1">
+        <ul class="obs_saison">
+        {%- for child in form %}
+            <li>
+            {# {{dump(child)}} #}
+                <input id="{{child.vars.id}}" name="{{child.vars.full_name}}" type="checkbox" value="{{child.vars.value}}" {% if child.vars.value in form.vars.value %}checked{% endif %}>
+                    <label for="{{child.vars.id}}">
+                        <i class="icon-{{child.vars.label|lower}}">
+                        </i>
+                    </label>
+            </li>
+        {% endfor -%}
+        </ul>
+    </div>
+{% endblock _form_seasons_widget %}
+
+{% block _form_structureRespScientist_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Réseau</div>
+    {{- form_label(form) -}}
+{%- endblock _form_structureRespScientist_label %}
+
+
+{% block _form_results_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Résultats <small>- Avez-vous déjà des données d’observation à partager ?</small></div>
+    {{- form_label(form) -}}
+{%- endblock _form_results_label %}
+
+{% block _form_nbSubscriberByYear_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Evaluation </div>
+    {{- form_label(form) -}}
+{%- endblock _form_nbSubscriberByYear_label %}
+
+{% block _form_programDataValidator_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Protocole</div>
+    {{- form_label(form) -}}
+{%- endblock _form_programDataValidator_label %}
+
+{% block _form_programDataFormat_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Données</div>
+    {{- form_label(form) -}}
+{%- endblock _form_programDataFormat_label %}
+
+{% block _form_nbETP_label -%}
+<div class="step__title ml-2 mt-4 mb-2">Ressources</div>
+    {{- form_label(form) -}}
+{%- endblock _form_nbETP_label %}
+
+
+{% block _form_datafeedback_row -%}
+    <div class="form-group">
+        {{- form_errors(form) -}}
+        {{ form_label(form, form.vars.label, { 'label_attr': {'class': 'control-label col-xs-12'} }) }}
+        {# {{- form_label(form) -}} #}
+        <div class="col-xs-12 mt-1">
+        {# {{- dump(form.vars) -}} #}
+            <div>
+                <input name="retours_prevus" id="retours_prevus-non" type="radio" onclick="document.getElementById('{{form.vars.id}}').value = 'Non';document.getElementById('{{form.vars.id}}').removeAttribute('required');">
+                <label for="retours_prevus-non">Non</label>
+            </div>
+            <div>
+                <input name="retours_prevus" id="retours_prevus-oui" type="radio" {% if form.vars.value is not empty %}checked="checked"{% endif %} onclick="document.getElementById('{{form.vars.id}}').value = '';document.getElementById('{{form.vars.id}}').required=true;">
+                <label for="retours_prevus-oui">Oui <small>- Préciser le lien url vers les résultats</small></label>
+                <div class="checked mt-1">
+                    {# {{- dump(form.vars) -}} #}
+                    <input id="{{form.vars.id}}" name="{{form.vars.full_name}}"  class="form-control" type="text" value="{{form.vars.value}}">
+                    {# <input class="form-control" name="retours_prevus-precisions" type="text"> #}
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock _form_datafeedback_row %}
+
+
+{% block _form_dataStorageLocalisation_row -%}
+    <div class="form-group">
+        
+        {{- form_errors(form) -}}
+        {{ form_label(form, form.vars.label, { 'label_attr': {'class': 'control-label col-xs-12'} }) }}
+        {# {{- form_label(form) -}} #}
+        {# <label class="control-label col-xs-12">Où les données sont-elles stockées ?</label> #}
+        <div class="col-xs-12 mt-1">
+        {# {{- dump(form) -}} #}
+            <div>
+                <input name="{{form.vars.full_name}}" id="stockage-donnees-1" type="radio" value="Base de données interne au projet" {% if form.vars.value == "Base de données interne au projet" %}checked="checked"{% endif %} onclick="document.getElementById('{{form.vars.id}}').value = this.value;document.getElementById('{{form.vars.id}}').removeAttribute('required');" >
+                <label for="stockage-donnees-1">Base de données interne au projet </label>
+            </div>
+            <div>
+                <input name="{{form.vars.full_name}}" id="stockage-donnees-2" type="radio" value="Base de données régionale" {% if form.vars.value == "Base de données régionale" %}checked="checked"{% endif %} onclick="document.getElementById('{{form.vars.id}}').value = this.value;document.getElementById('{{form.vars.id}}').removeAttribute('required');">
+                <label for="stockage-donnees-2">Base de données régionale </label>
+            </div>
+            <div>
+                <input name="{{form.vars.full_name}}" id="stockage-donnees-3" type="radio" {% if form.vars.value is not empty and form.vars.value != "Base de données régionale" and form.vars.value != "Base de données interne au projet"%}checked="checked"{% endif %} onclick="document.getElementById('{{form.vars.id}}').value = '';document.getElementById('{{form.vars.id}}').required=true;">
+                <label for="stockage-donnees-3">Autre <small>- Précisez</small></label>
+                <div class="checked mt-1">
+                    <input id="{{form.vars.id}}" name="{{form.vars.full_name}}"  class="form-control" type="text" value="{{form.vars.value}}">
+                    {# <input name="stockage-donnees-precisions" id="stockage-donnees-precisions" class="form-control" type="text"> #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyTextValue(source,targetid) {
+            if(source.checked)
+            {
+                $(targetid).val($(source).val());
+            }
+        }
+    </script>
+{%- endblock _form_dataStorageLocalisation_row %}
+
+
+{% block _form_f_localisations_widget -%}
+ {# {{dump(form)}} #}
+    {# <div class="form-group">
+        <label class="control-label col-xs-12">Portée géographique de l’observatoire :<sup>*</sup><small>Un seul choix possible</small></label>
+    </div> #}
+    {# {{- dump(form.vars.attr.portee_geo) -}} #}
+    <div class="form-group">
+    
+    {% for elem in form.vars.attr.portee_geo %}
+        <div class="col-xs-12">
+            <input type="radio" name="portee_geo" id="{{elem.key}}" value="{{elem.key}}" required>
+            <label for="{{elem.key}}">{{elem.label}}</label>
+            {% if elem.value is iterable %}
+                <div class="checked mb-1 clearfix">
+                    {% for id, name in elem.value %}
+                        <div class="col-sm-6">
+                            <input type="checkbox" name="{{elem.key}}[]" id="{{id}}" value="{{id}}">
+                            <label for="{{id}}">{{ name }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {% if elem.value == "cp" %}
+                    <div class="checked mb-1">
+                        <input type="text" name="{{elem.key}}" id="cp-commune" class="form-control" placeholder="Entrez le Code Postal">
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    <input type="hidden" name="localisations" value="on"/>
+    </div>
+    {# {% if form.parent.vars.errors | length > 0 %}
+        <span class="help-block">
+            <ul class="list-unstyled">
+                <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ form.parent.vars.errors[0].message }}</li>
+            </ul>
+        </span>
+    {% endif %}
+form_error:
+    {{- form_errors(form) -}} #}
+{% endblock _form_f_localisations_widget %}
+
+
+{% block file_widget %} {# existing elements #} 
+
+
+        {% set type = type|default('file') %}
+        {% set subject =  form.parent.vars.value %}
+        {# {{ dump(subject) }} #}
+        {% if subject and subject.id and "pdf" in _context.id %}
+        {# {{ vich_uploader_asset(subject, "file", "SiteBundle\\Entity\\Pdf") }} #}
+        {# {{pdf_article_url ~ subject.fileName}} #}
+        <a href="{{ asset(pdf_article_url ~ subject.fileName) }}">{{subject.name}}</a>
+        {% else %}
+             <input class="imgUpload" type="{{ type }}" {{ block('widget_attributes') }} />
+            {% if "photo" in _context.name or "image" in _context.name %}
+                {% if subject and subject.id and attribute(_context.subject, name|replace({ ('File'): 'Name' })) is defined  %}
+                    <img src="{{ asset(vich_uploader_asset(subject, name)) }}" width="200" />
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+{% endblock %}

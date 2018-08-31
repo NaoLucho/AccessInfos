@@ -1,0 +1,25 @@
+﻿id,env,createdAt,userName,action,entityName,entityId,propertyName,oldValue,newValue,status
+86,dev,"21/07/2018 10:07:02",louis,remove,"BuilderBundle\Entity\F_FormField",7,,,,done
+87,dev,"21/07/2018 10:07:14",louis,update,"BuilderBundle\Entity\F_Field",10,label,strAuteur,Auteur,done
+88,dev,"21/07/2018 10:07:25",louis,update,"BuilderBundle\Entity\Page_Content",8,position,1,"1 MAIN",done
+89,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,,,,done
+90,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,property,,seoDesc,done
+91,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,label,,"SEO description",done
+92,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,fieldtype,,F_FieldType:1,done
+93,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,,,,done
+94,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,property,,seokeywords,done
+95,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,label,,"SEO keywords",done
+96,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,fieldtype,,F_FieldType:1,done
+97,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,,,,done
+98,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,position,,8,done
+99,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,form,,F_Form:1,done
+100,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,field,,F_Field:16,done
+101,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,,,,done
+102,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,position,,9,done
+103,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,form,,F_Form:1,done
+104,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,field,,F_Field:17,done
+105,dev,"21/07/2018 15:07:41",louis,update,"BuilderBundle\Entity\F_Field",17,property,seokeywords,seoKeywords,done
+106,dev,"13/08/2018 15:08:00",louis,update,"BuilderBundle\Entity\Page",1,slug,home,accueil,done
+107,dev,"14/08/2018 16:08:19",louis,update,"BuilderBundle\Entity\Page",1,seoTitle,Accueil,"Access'Infos - articles accessibles et faciles à lire. FALC Ados, adultes",done
+108,dev,"14/08/2018 16:08:20",louis,update,"BuilderBundle\Entity\Page",1,seoDesc,"Seo Description","FALC Ados, adultes - des textes accessibles et faciles à lire.",done
+109,dev,"14/08/2018 16:08:20",louis,update,"BuilderBundle\Entity\Page",1,seokeywords,Keywords,"accessibilité, article, falc, fle, français facile, lecture facile, dys, dyslexie, handicap, trouble cognitif, Cécile Péguin, roman adapté",done

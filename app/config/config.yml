@@ -1,0 +1,348 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+    #structure_logo_route: '%image_prefix%/logo_structure'
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ["%locale%"] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    date:
+        format: d.m.Y, H:i:s
+        timezone: Europe/Paris
+    form_themes:
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
+        - 'bootstrap_3_layout.html.twig'
+        - 'BuilderBundle:Form:fields.html.twig'
+    globals:
+        template_repo: %template_repo%
+        fos_csrf_provider: "@security.csrf.token_manager"
+        pdf_article_url: '%image_prefix%/article/fichier_pdf/'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        server_version: 5.7
+        types:
+            json: Sonata\Doctrine\Types\JsonType
+            geometry:   CrEOF\Spatial\DBAL\Types\GeometryType
+            point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
+            polygon:    CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
+            linestring: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            ApplicationSonataUserBundle: ~
+            SonataUserBundle: ~
+            FOSUserBundle: ~ 
+            ApplicationSonataMediaBundle: ~
+            SonataMediaBundle: ~
+        dql:
+            numeric_functions:
+                area:                   CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Area
+                asbinary:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\AsBinary
+                astext:                 CrEOF\Spatial\ORM\Query\AST\Functions\MySql\AsText
+                buffer:                 CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Buffer
+                centroid:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Centroid
+                contains:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Contains
+                crosses:                CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Crosses
+                dimension:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Dimension
+                distance:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Distance
+                disjoint:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Disjoint
+                distancefrommultyLine:  CrEOF\Spatial\ORM\Query\AST\Functions\MySql\DistanceFromMultyLine
+                endpoint:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\EndPoint
+                envelope:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Envelope
+                equals:                 CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Equals
+                exteriorring:           CrEOF\Spatial\ORM\Query\AST\Functions\MySql\ExteriorRing
+                geodistpt:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\GeodistPt
+                geometrytype:           CrEOF\Spatial\ORM\Query\AST\Functions\MySql\GeometryType
+                geomfromtext:           CrEOF\Spatial\ORM\Query\AST\Functions\MySql\GeomFromText
+                glength:                CrEOF\Spatial\ORM\Query\AST\Functions\MySql\GLength
+                interiorringn:          CrEOF\Spatial\ORM\Query\AST\Functions\MySql\InteriorRingN
+                intersects:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Intersects
+                isclosed:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\IsClosed
+                isempty:                CrEOF\Spatial\ORM\Query\AST\Functions\MySql\IsEmpty
+                issimple:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\IsSimple
+                linestringfromwkb:      CrEOF\Spatial\ORM\Query\AST\Functions\MySql\LineStringFromWKB
+                linestring:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\LineString
+                mbrcontains:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBRContains
+                mbrdisjoint:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBRDisjoint
+                mbrequal:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBREqual
+                mbrintersects:          CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBRIntersects
+                mbroverlaps:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBROverlaps
+                mbrtouches:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBRTouches
+                mbrwithin:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\MBRWithin
+                numinteriorrings:       CrEOF\Spatial\ORM\Query\AST\Functions\MySql\NumInteriorRings
+                numpoints:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\NumPoints
+                overlaps:               CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Overlaps
+                pointfromwkb:           CrEOF\Spatial\ORM\Query\AST\Functions\MySql\PointFromWKB
+                pointn:                 CrEOF\Spatial\ORM\Query\AST\Functions\MySql\PointN
+                point:                  CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Point
+                srid:                   CrEOF\Spatial\ORM\Query\AST\Functions\MySql\SRID
+                startpoint:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\StartPoint
+                st_buffer:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STBuffer
+                st_contains:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STContains
+                st_crosses:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STCrosses
+                st_disjoint:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STDisjoint
+                st_equals:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STEquals
+                st_intersects:          CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STIntersects
+                st_overlaps:            CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STOverlaps
+                st_touches:             CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STTouches
+                st_within:              CrEOF\Spatial\ORM\Query\AST\Functions\MySql\STWithin
+                touches:                CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Touches
+                within:                 CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Within
+                x:                      CrEOF\Spatial\ORM\Query\AST\Functions\MySql\X
+                y:                      CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Y 
+            datetime_functions:
+                MATCH_AGAINST: BuilderBundle\Extensions\Doctrine\MatchAgainst
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+    encryption: '%mailer_encryption%'
+    # host: null
+
+# FOS user bundle
+fos_user:
+    db_driver:     orm                       # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
+    firewall_name: main
+    resetting:
+        email:
+            template:   ApplicationSonataUserBundle::Resetting\password_resetting.email.twig
+            from_email:
+                address:        resetting@example.com
+                sender_name:    Site
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+    user_class:     Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager  
+    service:
+        user_manager: sonata.user.orm.user_manager
+        mailer: fos_user.mailer.twig_swift
+    registration:
+        form:
+            type: Application\Sonata\UserBundle\Form\RegistrationType
+        confirmation:
+            enabled: true
+            from_email:
+                address:        "%mailer_user%"
+                sender_name:    Site
+            template:   ApplicationSonataUserBundle::Registration\confirmation.email.twig
+    profile:
+        form:
+            type: Application\Sonata\UserBundle\Form\UserType
+
+
+# Sonata Users 
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+    class:
+        user: Application\Sonata\UserBundle\Entity\User
+        group: Application\Sonata\UserBundle\Entity\Group
+
+sonata_block:
+    default_contexts: [sonata_page_bundle]
+    blocks:
+        sonata.user.block.menu:    # used to display the menu in profile pages
+        sonata.user.block.account: # used to display menu option (login option)
+        sonata.block.service.text: # used to if you plan to use Sonata user routes
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+sonata_admin:
+    title:       Admin
+    security:
+        handler: sonata.admin.security.handler.role
+
+        # role_admin: ROLE_ADMIN
+        # role_super_admin: ROLE_SUPER_ADMIN
+
+knp_menu:
+    # use "twig: false" to disable the Twig extension and the TwigRenderer
+    twig:
+        template: KnpMenuBundle::menu.html.twig
+    #  if true, enables the helper for PHP templates
+    templating: false
+    # the renderer to use, list is also available by default
+    default_renderer: twig
+
+ivory_ck_editor:
+    default_config: default
+    configs:
+        default:
+            filebrowserBrowseRoute: admin_sonata_media_media_browser
+            filebrowserImageBrowseRoute: admin_sonata_media_media_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+            filebrowserUploadRoute: admin_sonata_media_media_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_sonata_media_media_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: my-context # Optional, to upload in a custom context
+            toolbar:                    [['Source'], ['Undo','Redo' ],[ 'Bold','Italic','Underline','Strike', 'Blockquote','Subscript','Superscript','-','RemoveFormat' ], [ 'NumberedList','BulletedList','-','Outdent','Indent','-','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ], [ 'Link','Unlink', 'Anchor'], [ 'pbckcode', 'Image', 'Table','SpecialChar', 'HorizontalRule' ], '/', [ 'Format' ], [ 'RemoveFormat' ], [ 'Maximize' ] ]
+            # extraPlugins: 'oembed'
+            # uploadUrl: '/uploader/upload.php?type=Images&responseType=json'
+
+sonata_media:
+    # if you don't use default namespace configuration
+    #class:
+    #    media:        MyVendor\MediaBundle\Entity\Media
+    #    gallery:      MyVendor\MediaBundle\Entity\Gallery
+    #    gallery_item: MyVendor\MediaBundle\Entity\GalleryItem
+    db_driver: doctrine_orm # or doctrine_mongodb, doctrine_phpcr it is mandatory to choose one here
+    default_context: default # you need to set a context
+    contexts:
+        default:  # the default context is mandatory
+            providers:
+                - sonata.media.provider.dailymotion
+                - sonata.media.provider.youtube
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+                - sonata.media.provider.vimeo
+
+            formats:
+                small: { width: 100 , quality: 70}
+                big:   { width: 500 , quality: 70}
+
+    cdn:
+        server:
+            # in prod
+            path: %upload_prefix%/media # => /uploads/media
+            # in local 
+            # path: /%project_name%/web/uploads/media 
+
+    filesystem:
+        local:
+            directory:  "%kernel.root_dir%/../web/uploads/media" # in local "%kernel.root_dir%/../web/uploads/media"
+            create:     false
+
+coop_tilleuls_ck_editor_sonata_media:
+    templates:
+        layout: CoopTilleulsCKEditorSonataMediaBundle::layout.html.twig # Layout of the file browser
+        browser: CoopTilleulsCKEditorSonataMediaBundle:MediaAdmin:browser.html.twig # Template of the CKEditor file browser
+        upload: CoopTilleulsCKEditorSonataMediaBundle:MediaAdmin:upload.html.twig # Template returned after a direct upload
+
+
+# Uploader d'images
+vich_uploader:
+    db_driver: orm
+    mappings:
+        avatar_image:
+            uri_prefix:         '%image_prefix%/avatars'
+            upload_destination: '%kernel.root_dir%/../web/uploads/img/avatars'
+            namer:              vich_uploader.namer_origname
+            delete_on_update: true
+            delete_on_remove: true
+        article_photo:
+            uri_prefix:         '%image_prefix%/article_photo/'
+            upload_destination: '%kernel.root_dir%/../web/uploads/img/article_photo'
+            namer:              vich_uploader.namer_origname
+            delete_on_update: true
+            delete_on_remove: true
+        lien_image:
+            uri_prefix:         '%image_prefix%/lien_image/'
+            upload_destination: '%kernel.root_dir%/../web/uploads/img/lien_image'
+            namer:              vich_uploader.namer_origname
+            delete_on_update: true
+            delete_on_remove: true
+        fichier_pdf:
+            uri_prefix:         '%image_prefix%/article/fichier_pdf'
+            upload_destination: '%kernel.root_dir%/../web/uploads/img/article/fichier_pdf'
+            namer:              vich_uploader.namer_origname
+            delete_on_update: true
+            delete_on_remove: true
+        # partners_image:
+        #     uri_prefix:         '%image_prefix%/article/logo_partner'
+        #     upload_destination: '%kernel.root_dir%/../web/uploads/img/article/logo_partner'
+        #     namer:              vich_uploader.namer_origname
+        #     delete_on_update: true
+        #     delete_on_remove: true
+        # program_logo_image:
+        #     uri_prefix:         '%image_prefix%/program/logo_progam'
+        #     upload_destination: '%kernel.root_dir%/../web/uploads/img/program/logo_progam'
+        #     namer:              vich_uploader.namer_origname
+        #     delete_on_update: true
+        #     delete_on_remove: true
+        # program_photo_image:
+        #     uri_prefix:         '%image_prefix%/program/photo_progam'
+        #     upload_destination: '%kernel.root_dir%/../web/uploads/img/program/photo_progam'
+        #     namer:              vich_uploader.namer_origname
+        #     delete_on_update: true
+        #     delete_on_remove: true
+        # partners_image:
+        #     uri_prefix:         '%image_prefix%/program/logo_partner'
+        #     upload_destination: '%kernel.root_dir%/../web/uploads/img/program/logo_partner'
+        #     namer:              vich_uploader.namer_origname
+        #     delete_on_update: true
+        #     delete_on_remove: true
+        # program_results_pdf:
+        #     uri_prefix:         '%image_prefix%/program/results_pdf'
+        #     upload_destination: '%kernel.root_dir%/../web/uploads/img/program/results_pdf'
+        #     namer:              vich_uploader.namer_origname
+        #     delete_on_update: true
+        #     delete_on_remove: true
+        carousel_image:
+            uri_prefix:         '%image_prefix%/carousel/'
+            upload_destination: '%kernel.root_dir%/../web/uploads/img/carousel'
+            namer:              vich_uploader.namer_origname
+            delete_on_update: true
+            delete_on_remove: true
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true

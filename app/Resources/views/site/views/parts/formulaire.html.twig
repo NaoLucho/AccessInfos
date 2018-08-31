@@ -1,0 +1,151 @@
+{% if request is not defined %}
+  {% set request = app.request %}
+{% endif %}
+<form id="form-multiple-search" method="post" action="{{ path('site_buildpage', {'slug':'ecosysteme-sciences-participatives','page': 1 }) }}">
+  <div class="form__lieu">
+    <label for="lieu"><i class="icon-lieu"></i>Lieu</label>
+    <input type="text" placeholder="(Ville, dépt., CP, région)" name="lieu" value="{{request.request.get('lieu')}}">
+    
+  </div>
+
+  {# Themes #}
+  <div class="form__themes panel">
+    <label data-target="#themes" data-toggle="collapse" data-parent="#form-multiple-search"><i class="icon-themeJaune"></i> Thèmes</label>
+    <div class="collapse list row panel-collapse" id="themes">
+      {% set nbthemecolumns = 3 %}{% set nbthemerows = 5 %}{% set nbcolumn = 1 %}
+      {% for theme in themes %}
+        {% set posted = false %}
+        {% for postedval in request.request.get("theme") %}
+          {% if postedval == theme.id %}
+            {% set posted = true %}
+          {% endif %}
+        {% endfor %}
+        {% if loop.index % nbthemerows == 1 %}
+          {%  if nbcolumn >= nbthemecolumns %}
+      <div class="col-sm-4 themes_details">
+          {% else %}
+      <div class="col-sm-4">
+          {% endif %}
+        {% endif %}
+        <div>
+          <i class="icon-{{ theme.icon }}"></i>
+          {# <img src="{{ asset( template_repo ~ '/assets/images/icons/' ~ theme.icon ~ '.svg') }}" alt="{{ theme.icon}}" width="20px"> #}
+          <input type="checkbox" name="theme[]" id="theme_{{ theme.icon }}" value="{{ theme.id }}" {% if posted %}checked="checked"{% endif %}>
+          <label for="theme_{{ theme.icon }}">{{ theme.name }}</label>
+        </div>
+        {% if loop.index % nbthemerows == 0  %}
+      </div>
+          {% set nbcolumn = nbcolumn +1 %}
+        {% endif %}
+        
+      {% endfor %}
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  {# Especes #}
+  <div class="form__especes panel">
+    <label data-target="#especes" data-toggle="collapse" data-parent="#form-multiple-search"><i class="icon-especeVert"></i> Espèces</label>
+    <div class="collapse list row panel-collapse" id="especes">
+      {# {% set animaux = [
+        {"icon": 'petitMam', "label": 'Petits mammifères', "desc": 'Animaux vertébrés vivipares (nourrissant leurs petits avec le lait maternel). En font partie les chauves-souris, les hérissons, les renards, les petits rongeurs…'},
+        {"icon": 'grandMam', "label": 'Grands mammifères terrestres', "desc": 'Animaux vertébrés terrestres vivipares (nourrissant leurs petits avec le lait maternel). En font partie les biches, les sangliers, les ours…'},
+        {"icon": 'mamMer', "label": 'Grand mammifères marins',  "desc": 'Animaux vertébrés marins vivipares (nourrissant leurs petits avec le lait maternel). En font partie les dauphins, les baleines, les phoques…'},
+        {"icon": 'reptiles', "label": 'Reptiles & amphibiens', "desc": 'Animaux vertébrés ovipares (pondant des œufs) à sang froid. Les reptiles -serpents, crocodiles, tortues…- possèdent des écailles et ont un corps souvent allongé. Les amphibiens -grenouilles, salamandres, tritons…- ont besoin d’eau pour se reproduire.'},
+        {"icon": 'insectes', "label": 'Insectes', "desc": 'Animaux dotés d’un squelette externe et caractérisés par un corps segmenté en trois parties : tête, thorax et abdomen. En font partie les fourmis, les libellules ou encore les abeilles.'},
+        {"icon": 'coraux', "label": 'Coraux, oursins, étoiles de mer & éponges', "desc": 'Animaux marins primitifs de tailles et de formes très variées, que l’on considère souvent à tord pour de la végétation !'},
+        {"icon": 'crustaces', "label": 'Molusques', "desc": 'Animaux invertébrés à corps mou, protégés par un squelette externe : coquille chez mollusques (moules, huîtres…) ; carapace chez les crustacés (crabes, crevettes…).'},
+        {"icon": 'arachnides', "label": 'Arachnides & mille-pattes', "desc": 'Animaux invertébrés terrestres. Les arachnides -araignées, scorpions, puces- possèdent quatre paires de pattes. Les mille-pattes ont un corps allongé, pourvus de nombreuses pattes (iules, scolopendres).'},
+        {"icon": 'gasteropodes', "label": 'Gastéropode & lombrics', "desc": 'Animaux invertébrés. Les gastéropodes sont des mollusques, dotés d’une coquille plus ou moins visibles (escargots, limaces). Les lombrics regroupent l’ensemble des vers de terre.'},
+        {"icon": 'oiseaux', "label": 'Oiseaux', "desc": 'Animaux vertébrés ovipares (pondant des œufs, au corps recouvert de plumes et dotés d’un bec dépourvu de dents. En font partie les moineaux, les aigles ou encore les mouettes.'},
+        {"icon": 'raies', "label": 'Raies & requins', "desc": 'Animaux vertébrés aquatiques ; poissons cartilagineux, de taille moyenne à grande comme les raies manta, le requin gris ou encore le poisson-scie.'},
+        {"icon": 'poissons', "label": 'Poissons', "desc": 'Animaux vertébrés aquatiques (mer et eau douce) qui possèdent des branchies et des nageoires et dont le corps est le plus souvent recouvert d’écailles.'},
+        {"icon": 'meduses', "label": 'Méduses', "desc": 'Animaux invertébrés marins au corps gélatineux, généralement venimeux, qui peuvent contenir jusqu’à 95% d’eau.'}
+      ]%} #}
+
+      {% if especes is defined %}
+        {% for espece in especes %}
+          {% if loop.index % 7 == 1 %}
+        <div class="col-sm-4">
+          {% endif %}
+          {% if espece.parent is null%}
+            {% set parent = espece %}
+            {% set posted = false %} {# not work for parent taxon... ils ne sont pas forcément postés... #}
+            {% set especeName = (espece.name |url_encode) %}
+            {% for postedval in request.request.get("taxon_" ~ especeName) %}
+              {% if postedval == espece.id %}
+                {# {{postedval}} #}
+                {% set posted = true %}
+              {% endif %}
+            {% endfor %}
+          <div class="large-item">
+            <input type="checkbox" name="taxon_{{especeName}}[]" id="{{especeName}}" data-select-all="taxon_{{especeName}}[]" value="{{ espece.id }}"  {% if posted %}checked="checked"{% endif %}>
+            <label for="{{especeName}}">{{espece.name}}</label>
+          </div>
+          {% else %}
+            {% set posted = false %}
+            {% set parentEspeceName = (parent.name |url_encode) %}
+            {% for postedval in request.request.get(("taxon_" ~ parentEspeceName)) %}
+              {% if postedval == espece.id %}
+                {# {{postedval}} #}
+                {% set posted = true %}
+              {% endif %}
+            {% endfor %}
+          <div>
+            <a tabindex="{{ loop.index }}" role="button" data-toggle="popover" data-trigger="focus" {% if espece.description is defined %}data-content="{{ espece.description }}"{% endif %}>
+              {# <img src="{{ asset( template_repo ~ '/assets/images/icons/' ~ espece.icon ~ '.svg') }}" alt="{{ espece.icon}}" width="20px"> #}
+              <i class="icon-{{ espece.icon }}"></i>
+            </a>
+            <input type="checkbox" name="taxon_{{parentEspeceName}}[]" id="{{parentEspeceName}}_{{ espece.icon }}" value="{{ espece.id }}" {% if posted %}checked="checked"{% endif %}>
+            <label for="{{parentEspeceName}}_{{ espece.icon }}">{{ espece.name }}</label>
+          </div>
+          {% endif %}
+          {% if loop.index % 7 == 0 %}
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      {% endif %}
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  {# Niveaux #}
+  <div class="form__niveaux panel">
+    <label data-target="#niveaux" data-toggle="collapse" data-parent="#form-multiple-search"><i class="icon-niveauTous"></i> Niveau</label>
+    <div class="collapse list row panel-collapse" id="niveaux">
+      <div class="col-sm-4 col-sm-offset-8">
+        {# {% if niveaux is not defined %}
+          {% set niveaux = [
+            {"icon": 'niveauTous', "label": 'Pour tous', "value":0},
+            {"icon": 'niveauInities', "label": 'Initiés', "value":0},
+          ]%}
+        {% endif %} #}
+        {% for niveau in niveaux %}
+          {% set posted = false %}
+          {% for postedNiveau in request.request.get("niveau") %}
+            {% if postedNiveau == niveau.id %}
+              {% set posted = true %}
+            {% endif %}
+          {% endfor %}
+        <div>
+          <img src="{{ asset( template_repo ~ '/assets/images/icons/' ~ niveau.icon ~ '.svg') }}" alt="{{ niveau.icon}}" width="20px">
+          <input type="radio" name="niveau[]" id="niveau_{{ niveau.icon }}" value="{{niveau.id}}" {% if posted %}checked="checked"{% endif %}>
+          <label for="niveau_{{ niveau.icon }}">{{ niveau.name }}</label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {# Recherche mot cle #}
+  <div class="mot_cle">
+    <span>
+      <input type="text" name="mot_cle" id="mot_cle" placeholder="Recherche par mot clé" value="{{request.request.get('mot_cle')}}">
+    </span>
+  </div>
+
+  <input type="submit" value="OK">
+  <div class="clearfix"></div>
+</form>

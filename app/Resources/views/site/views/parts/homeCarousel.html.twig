@@ -1,0 +1,27 @@
+{% if carousel is defined and carousel is not null %}
+  {% set items = carousel %}
+{% endif %}
+
+<div class="page-hero" id="homeCarousel">
+  <div class="owl-carousel">
+    {% if items is defined %}
+    {% for item in items %}
+    <div class="item" style="background: url({{ vich_uploader_asset(item, 'imageFile') }});">
+      <div class="container">
+      <div class="carousel-caption hidden-xs">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.content }}</p>
+      </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+
+  <div class="page-hero__title">
+    <div class="container">
+      <h1 class="text-center">Site builder</h1>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{#{% extends "BuilderBundle::builder_layout.html.twig" %} #}
+{% extends template_repo ~'/views/templates/default.html.twig' %}
+{% if page is defined %}
+
+    {% if page == 'inscription' %}
+        {% set title = 'Demande d\'inscription au site' %} {# Titre de la page - header-mea & tab du navigateur #}
+        {% set imageHero = 'VisuelInscription.jpg' %} {# Nom de l'image pour le hero de la page #}
+    {% endif %}
+{% endif %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@ApplicationSonataUserBundle/Resources/public/css/main.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% javascripts '@ApplicationSonataUserBundle/Resources/public/js/register/mapping.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ApplicationSonataUserBundle/Resources/public/js/register/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    {% javascripts '@ApplicationSonataUserBundle/Resources/public/js/profile/profile.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

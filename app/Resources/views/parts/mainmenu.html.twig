@@ -1,0 +1,39 @@
+
+{# MENU: {{menuName}} #}
+{% if menuprincipal %}
+  {% for menupage in menuprincipal.menuPages %}
+    {% set access = false %}
+    {# Si des droits spécifiques sont demandés: #}
+    {% for group in menupage.page.rights %}
+      {% if group.name == 'Users' %}
+        {% set access = true %}
+        {# <div> Access pour tous si group.name = Users </div> #}
+      {% else %}
+        {% set role = 'ROLE_'~ group.name|upper %}
+        {# <div> role need = {{role}} </div> #}
+        {% if is_granted(role) %} 
+          {# L'utilisateur courant à le role demandé #}
+          {% set access = true %}
+          {# <div> user has role </div> #}
+        {% endif %}
+      {% endif %}
+    {% else %}
+      {# Si pas de droits spécifiques demandés #}
+      {% set access = true %}
+    {% endfor %}
+    {# <div> Final access = {{access}}</div> #}
+    {% if access %}
+      <li>
+        <a href="{{ path('site_buildpage', {'slug': menupage.page.slug}) }}">
+          {{ menupage.page.name }}
+        </a>
+      </li>
+    {% endif %}
+  {% else %}
+    <li>Pas de pages.</li>
+  {% endfor %}
+{# {% set menu = knp_menu_get('BuilderBundle:Builder:mainMenu', [], {'menuName': menuName}) %}
+{{ knp_menu_render(menu) }} #}
+{% else %}
+Menu 'Principal' inexistant
+{% endif %}

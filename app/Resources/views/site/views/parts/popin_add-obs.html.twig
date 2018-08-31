@@ -1,0 +1,65 @@
+<div class="modal fade" id="modalAddObs" tabindex="-1" role="dialog" aria-labelledby="addObs">
+  <div class="modal-dialog modal-lg" role="document">
+
+    {# Content etape 1 -> definir qui nous sommes par rapport a l'observatoire #}
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Open</h4>
+        <div class="subtitle">J'ajoute un observatoire</div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 mt-3">
+            <p>Je suis :</p>
+            <form action="#">
+              <div class="group-form">
+                <div>
+                  <input type="checkbox" name="animateur_obs" id="animateur_obs">
+                  <label for="animateur_obs" class="is-smallcase">L’animateur de cet observatoire</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="referent_obs" id="referent_obs">
+                  <label for="referent_obs" class="is-smallcase">Son référent scientifique</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="relai_obs" id="relai_obs">
+                  <label for="relai_obs" class="is-smallcase">Un relai local</label>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <a href="#" type="submit" class="btn btn-block">Valider</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {# content etape 2 pour le nom de l'observatoire relaye #}
+    <div class="modal-content hidden">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Open</h4>
+        <div class="subtitle">Je relaie un observatoire existant</div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 mt-3">
+            <form action="#">
+              <div class="form-group has-error"> {# Ajouter la classe has-error lorsqu'il y a une erreur #}
+                <input type="text" placeholder="Nom de l’observatoire à relayer" class="form-control">
+                {# Le span.desc avec le message d'erreur #}
+                <span class="desc">Cet observatoire n’existe pas, vous pouvez l’inviter à nous rejoindre.</span>
+              </div>
+              <div class="form-group mt-3">
+                <a href="#" type="submit" class="btn btn-block">Valider</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

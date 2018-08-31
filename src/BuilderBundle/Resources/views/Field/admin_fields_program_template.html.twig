@@ -1,0 +1,33 @@
+{# {% extends "SonataAdminBundle:CRUD:edit.html.twig" %} #}
+{# CRUD:edit==> {% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %} #}
+{# CRUD:base_edit==>
+    {% extends base_template %}
+    => {% extends form_admin_fields.html.twig %}
+    with additionnal and override blocks
+#}
+{# base_template==>
+    {% extends 'form_div_layout.html.twig' %} 
+    with additionnal and override blocks
+    #}
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% form_theme form 'BuilderBundle:Field:fields_program_template.html.twig' %}
+
+{# {% block form %}
+    {{parent()}}
+    {{dump(form)}}
+    {% for child in form.children %}
+    {{dump(child.vars)}}
+    {% endfor %}
+{% endblock form %} #}
+
+ 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset( template_repo ~ '/assets/css/open.min.css') }}" />
+{% endblock %}
+
+{# {% block form_row -%} NE FONCTIONNE PAS
+<div class="clearfix"></div>
+{{ parent() }}
+{%- endblock form_row %} #}

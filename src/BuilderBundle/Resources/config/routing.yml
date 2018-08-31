@@ -1,0 +1,60 @@
+homepage:
+    path: /
+    defaults: 
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /accueil
+        permanent: true
+
+# site_home:
+#     path: /home
+#     defaults: 
+#         _controller: FrameworkBundle:Redirect:urlRedirect
+#         path: /accueil
+#         permanent: true
+
+# site_homepage:
+#     path: /homepage
+#     defaults: 
+#         _controller: FrameworkBundle:Redirect:urlRedirect
+#         path: /accueil
+#         permanent: true
+
+
+
+site_loginpage:
+    path:     /login/page
+    defaults: { _controller: BuilderBundle:Builder\BuildPage:buildPage, slug: "login" }
+
+site_login:
+    path:     /login
+    # defaults: { _controller: BuilderBundle:Builder\BuildPage:buildPage, slug: "login" }
+    # RENVOI vers la route de login de fosuserbundle
+
+site_popup:
+    path:     /popup/{slug}
+    defaults: { _controller: BuilderBundle:Builder\BuildContent:buildPageContent }
+
+# FOR DEBUG PAGE:
+site_buildpagedetails:
+    path:      /details/{slug}
+    defaults:
+        _controller: BuilderBundle:Builder\BuildPage:buildPageDetails
+
+
+site_routing:
+    resource: "@SiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
+site_buildpageid:
+    path:      /{slug}/{id}
+    defaults:
+        _controller: BuilderBundle:Builder\BuildPage:buildPage
+
+
+#MAIN ROUTE ALL MATCH:
+site_buildpage:
+    path:      /{slug}/
+    defaults:  { _controller: BuilderBundle:Builder\BuildPage:buildPage, slug: "home" }
+    # requirements:
+    #     slug: .+

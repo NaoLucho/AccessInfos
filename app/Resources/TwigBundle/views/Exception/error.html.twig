@@ -1,0 +1,9 @@
+{% extends "BuilderBundle::builder_layout.html.twig" %}
+
+{% block body %}
+    <h1>Une erreur est survenue:</h1>
+    <h2>Le site renvoi l'erreur "{{ status_code }} {{ status_text }}".</h2>
+    <p>
+        <a href="{{ path('homepage') }}">Retour à l'accueil</a>.
+    </p>
+{% endblock %}

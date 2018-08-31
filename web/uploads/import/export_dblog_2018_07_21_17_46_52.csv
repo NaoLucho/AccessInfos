@@ -1,0 +1,108 @@
+﻿id,env,createdAt,userName,action,entityName,entityId,propertyName,oldValue,newValue,status
+1,dev,"09/07/2018 17:07:27",louis,remove,"BuilderBundle\Entity\G_List",1,,,,done
+2,dev,"11/07/2018 13:07:19",louis,update,"BuilderBundle\Entity\Content",7,content,"<a href=""https://funga.fr/"">Propuls&eacute; par Funga</a>","<p><a href=""https://funga.fr/"">Propuls&eacute; par Funga</a></p>
+
+<p><img alt="""" src=""/Sites/sitebuilder/web/uploads/media/default/0001/01/c7eca664689bed5f0b01c579486a60a85167d70c.jpeg"" style=""height:50px; width:100px"" /></p>",done
+3,dev,"12/07/2018 15:07:59",louis,create,"BuilderBundle\Entity\F_Field",10,,,,done
+4,dev,"12/07/2018 15:07:59",louis,create,"BuilderBundle\Entity\F_Field",10,property,,authorName,done
+5,dev,"12/07/2018 15:07:59",louis,create,"BuilderBundle\Entity\F_Field",10,label,,strAuteur,done
+6,dev,"12/07/2018 15:07:59",louis,create,"BuilderBundle\Entity\F_Field",10,fieldtype,,F_FieldType:1,done
+7,dev,"12/07/2018 15:07:20",louis,create,"BuilderBundle\Entity\F_FormField",13,,,,done
+8,dev,"12/07/2018 15:07:20",louis,create,"BuilderBundle\Entity\F_FormField",13,position,,4,done
+9,dev,"12/07/2018 15:07:20",louis,create,"BuilderBundle\Entity\F_FormField",13,form,,F_Form:2,done
+10,dev,"12/07/2018 15:07:20",louis,create,"BuilderBundle\Entity\F_FormField",13,field,,F_Field:10,done
+11,dev,"12/07/2018 15:07:20",louis,update,"BuilderBundle\Entity\F_FormField",9,position,4,5,done
+12,dev,"12/07/2018 15:07:20",louis,update,"BuilderBundle\Entity\F_FormField",11,position,5,6,done
+13,dev,"12/07/2018 15:07:20",louis,update,"BuilderBundle\Entity\F_FormField",12,position,6,7,done
+14,dev,"14/07/2018 10:07:23",louis,create,"BuilderBundle\Entity\Content",14,,,,done
+15,dev,"14/07/2018 10:07:23",louis,create,"BuilderBundle\Entity\Content",14,title,,"C> SearchArticle",done
+16,dev,"14/07/2018 10:07:23",louis,create,"BuilderBundle\Entity\Content",14,content,,<p>SiteBundle:Article:search</p>,done
+17,dev,"14/07/2018 10:07:23",louis,create,"BuilderBundle\Entity\Content",14,type,,Controller,done
+18,dev,"14/07/2018 10:07:23",louis,create,"BuilderBundle\Entity\Content",14,locked,,1,done
+19,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page",15,,,,done
+20,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page",15,name,,Recherche,done
+21,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page",15,slug,,recherche,done
+22,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page_Content",22,,,,done
+23,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page_Content",22,position,,1,done
+24,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page_Content",22,page,,Page:15,done
+25,dev,"14/07/2018 10:07:55",louis,create,"BuilderBundle\Entity\Page_Content",22,content,,Content:14,done
+26,dev,"14/07/2018 10:07:55",louis,update,"BuilderBundle\Entity\Page",15,rights,,Group:3,done
+27,dev,"15/07/2018 11:07:01",louis,create,"BuilderBundle\Entity\F_Field",11,,,,done
+28,dev,"15/07/2018 11:07:01",louis,create,"BuilderBundle\Entity\F_Field",11,property,,linkprev,done
+29,dev,"15/07/2018 11:07:01",louis,create,"BuilderBundle\Entity\F_Field",11,listname,,SiteBundle:Article.title,done
+30,dev,"15/07/2018 11:07:01",louis,create,"BuilderBundle\Entity\F_Field",11,label,,"Article précédent",done
+31,dev,"15/07/2018 11:07:01",louis,create,"BuilderBundle\Entity\F_Field",11,fieldtype,,F_FieldType:3,done
+32,dev,"15/07/2018 11:07:17",louis,create,"BuilderBundle\Entity\F_FormField",14,,,,done
+33,dev,"15/07/2018 11:07:17",louis,create,"BuilderBundle\Entity\F_FormField",14,position,,6,done
+34,dev,"15/07/2018 11:07:17",louis,create,"BuilderBundle\Entity\F_FormField",14,form,,F_Form:1,done
+35,dev,"15/07/2018 11:07:17",louis,create,"BuilderBundle\Entity\F_FormField",14,field,,F_Field:11,done
+36,dev,"15/07/2018 11:07:59",louis,create,"BuilderBundle\Entity\F_Field",12,,,,done
+37,dev,"15/07/2018 11:07:59",louis,create,"BuilderBundle\Entity\F_Field",12,property,,linknext,done
+38,dev,"15/07/2018 11:07:59",louis,create,"BuilderBundle\Entity\F_Field",12,listname,,SiteBundle:Article.title,done
+39,dev,"15/07/2018 11:07:59",louis,create,"BuilderBundle\Entity\F_Field",12,label,,"Article suivant",done
+40,dev,"15/07/2018 11:07:59",louis,create,"BuilderBundle\Entity\F_Field",12,fieldtype,,F_FieldType:3,done
+41,dev,"15/07/2018 11:07:18",louis,create,"BuilderBundle\Entity\F_FormField",15,,,,done
+42,dev,"15/07/2018 11:07:18",louis,create,"BuilderBundle\Entity\F_FormField",15,position,,7,done
+43,dev,"15/07/2018 11:07:18",louis,create,"BuilderBundle\Entity\F_FormField",15,form,,F_Form:1,done
+44,dev,"15/07/2018 11:07:18",louis,create,"BuilderBundle\Entity\F_FormField",15,field,,F_Field:12,done
+45,dev,"16/07/2018 10:07:32",louis,update,"BuilderBundle\Entity\F_Field",11,fieldtype,F_FieldType:3,F_FieldType:14,done
+46,dev,"16/07/2018 10:07:20",louis,remove,"BuilderBundle\Entity\F_FormField",14,,,,done
+47,dev,"16/07/2018 10:07:29",louis,create,"BuilderBundle\Entity\F_FormField",16,,,,done
+48,dev,"16/07/2018 10:07:29",louis,create,"BuilderBundle\Entity\F_FormField",16,position,,6,done
+49,dev,"16/07/2018 10:07:29",louis,create,"BuilderBundle\Entity\F_FormField",16,form,,F_Form:1,done
+50,dev,"16/07/2018 10:07:29",louis,create,"BuilderBundle\Entity\F_FormField",16,field,,F_Field:11,done
+51,dev,"16/07/2018 10:07:37",louis,update,"BuilderBundle\Entity\F_Field",11,fieldtype,F_FieldType:14,F_FieldType:3,done
+52,dev,"20/07/2018 16:07:22",louis,create,"BuilderBundle\Entity\F_Field",13,,,,done
+53,dev,"20/07/2018 16:07:22",louis,create,"BuilderBundle\Entity\F_Field",13,property,,url,done
+54,dev,"20/07/2018 16:07:22",louis,create,"BuilderBundle\Entity\F_Field",13,label,,URL,done
+55,dev,"20/07/2018 16:07:22",louis,create,"BuilderBundle\Entity\F_Field",13,fieldtype,,F_FieldType:1,done
+56,dev,"20/07/2018 16:07:44",louis,create,"BuilderBundle\Entity\F_Field",14,,,,done
+57,dev,"20/07/2018 16:07:44",louis,create,"BuilderBundle\Entity\F_Field",14,property,,info,done
+58,dev,"20/07/2018 16:07:44",louis,create,"BuilderBundle\Entity\F_Field",14,label,,Info,done
+59,dev,"20/07/2018 16:07:44",louis,create,"BuilderBundle\Entity\F_Field",14,fieldtype,,F_FieldType:1,done
+60,dev,"20/07/2018 16:07:15",louis,create,"BuilderBundle\Entity\F_Field",15,,,,done
+61,dev,"20/07/2018 16:07:15",louis,create,"BuilderBundle\Entity\F_Field",15,property,,imageFile,done
+62,dev,"20/07/2018 16:07:15",louis,create,"BuilderBundle\Entity\F_Field",15,label,,Image,done
+63,dev,"20/07/2018 16:07:15",louis,create,"BuilderBundle\Entity\F_Field",15,fieldtype,,F_FieldType:9,done
+64,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_Form",3,,,,done
+65,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_Form",3,name,,lien,done
+66,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_Form",3,title,,Lien,done
+67,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_Form",3,entity,,"SiteBundle\Entity\Lien",done
+68,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",17,,,,done
+69,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",17,mandatory,,1,done
+70,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",17,position,,1,done
+71,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",17,form,,F_Form:3,done
+72,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",17,field,,F_Field:1,done
+73,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",18,,,,done
+74,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",18,position,,2,done
+75,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",18,form,,F_Form:3,done
+76,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",18,field,,F_Field:15,done
+77,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",19,,,,done
+78,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",19,mandatory,,1,done
+79,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",19,position,,3,done
+80,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",19,form,,F_Form:3,done
+81,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",19,field,,F_Field:13,done
+82,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",20,,,,done
+83,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",20,position,,4,done
+84,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",20,form,,F_Form:3,done
+85,dev,"20/07/2018 16:07:23",louis,create,"BuilderBundle\Entity\F_FormField",20,field,,F_Field:14,done
+86,dev,"21/07/2018 10:07:02",louis,remove,"BuilderBundle\Entity\F_FormField",7,,,,done
+87,dev,"21/07/2018 10:07:14",louis,update,"BuilderBundle\Entity\F_Field",10,label,strAuteur,Auteur,done
+88,dev,"21/07/2018 10:07:25",louis,update,"BuilderBundle\Entity\Page_Content",8,position,1,"1 MAIN",done
+89,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,,,,done
+90,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,property,,seoDesc,done
+91,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,label,,"SEO description",done
+92,dev,"21/07/2018 15:07:01",louis,create,"BuilderBundle\Entity\F_Field",16,fieldtype,,F_FieldType:1,done
+93,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,,,,done
+94,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,property,,seokeywords,done
+95,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,label,,"SEO keywords",done
+96,dev,"21/07/2018 15:07:15",louis,create,"BuilderBundle\Entity\F_Field",17,fieldtype,,F_FieldType:1,done
+97,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,,,,done
+98,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,position,,8,done
+99,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,form,,F_Form:1,done
+100,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",21,field,,F_Field:16,done
+101,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,,,,done
+102,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,position,,9,done
+103,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,form,,F_Form:1,done
+104,dev,"21/07/2018 15:07:31",louis,create,"BuilderBundle\Entity\F_FormField",22,field,,F_Field:17,done
+105,dev,"21/07/2018 15:07:41",louis,update,"BuilderBundle\Entity\F_Field",17,property,seokeywords,seoKeywords,done

@@ -1,0 +1,42 @@
+{% if articles is defined %}
+        </br>
+        <h3>{{category}}</h3>
+        {% set category = '' %}
+        {% for item in articles %}
+            {% if category != item.typeArticle.name %}
+                {% if category != '' %}
+                    </div>
+                {% endif %}
+                </br>
+                <span  class="info-page"> Catégorie: </span><a href="{{path('site_buildpage', {'slug':(item.typeArticle.name |replace({' ': '_'})|lower())})}}">{{item.typeArticle.name }}</a>
+                <div class="list-items">
+            {% endif %}
+            
+                <div class="item row">
+                    <div class="icon" >
+                        <a class="" href="{{path('site_buildpageid',{'slug':'article','id':(item.slug is empty? item.id:item.slug) })}}">
+                            <img src="{{ vich_uploader_asset(item, 'photoFile') }}" alt="{{ item.title }}">
+                        </a>
+                    </div>
+                    <div class="info col">
+                        <div class="title">
+                            <a href="{{path('site_buildpageid',{'slug':'article','id':(item.slug is empty? item.id:item.slug) })}}">{{item.title}}</a>
+                        </div>
+                        <div class="date">
+                            Publié le {{item.publishedAt| date('d/m/Y')}}
+                        </div>
+                        {# <div class="content">
+                            {{item.content| raw }} 
+                        </div> #}
+                        <a class="" href="{{path('site_buildpageid',{'slug':'article','id':(item.slug is empty? item.id:item.slug) })}}"> > lire l'article</a>
+                    </div>
+                </div>
+            {% if category != item.typeArticle.name %}
+                {% set category = item.typeArticle.name %}
+            {% endif %}
+        {% endfor %}
+        {% if articles is not empty %}
+            </div>
+        {% endif %}
+        
+{% endif %}

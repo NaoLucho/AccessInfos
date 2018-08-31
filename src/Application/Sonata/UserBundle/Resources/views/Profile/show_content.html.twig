@@ -1,0 +1,16 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div class="fos_user_user_show">
+    <h3>Informations du compte</h3>
+
+    <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.imageName }}" class="logo_img" />
+    {# <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p> #}
+    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+
+    <h3>Informations personnelles</h3>
+    <p>Prénom: {{ user.firstname }}</p>
+    <p>Nom: {{ user.lastname }}</p>
+    
+</div>
+{% endblock fos_user_content %}

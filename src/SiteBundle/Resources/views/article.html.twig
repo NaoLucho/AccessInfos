@@ -1,0 +1,164 @@
+{% extends "BuilderBundle:BuildPage:buildpage.html.twig" %}
+
+{% if article is not null %}
+    {% block title %}
+        {{article.title}} - {{ parent() }}
+    {% endblock %}
+    
+    {% block seoDescription %}
+        {% if article.seoDesc != "" %}
+            "{{ article.seoDesc }}"
+        {% else %}{{ parent() }}{% endif %}
+    {% endblock %}
+    
+    {% block seoKeywords %}
+        {% if article.seoKeywords != "" %}
+            "{{ article.seoKeywords }}"
+        {% else %}{{ parent() }}{% endif %}
+    {% endblock %}
+
+{% endif %}
+
+{% block maincontent %}
+{% if article is not null %}
+    {% if hasRights is defined and hasRights and (article.isActive or is_granted('ROLE_ADMIN')) %}
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashBag.all %}
+                {% for message in messages %}
+                    <div class="mt-4 alert alert-{{ type }}">
+                        {{ message|trans({}, 'FOSUserBundle') }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {# <div class="info-page"> #}
+        {# <div class="info-page col-4"> ARTICLE</div> #}
+        <div class="">
+            {% if article and article.typeArticle is defined %}
+                <span class="info-page">
+                    catégorie:
+                </span>
+                <a href="{{path('site_buildpage', {'slug':(article.typeArticle.name|replace({' ': '_'})|lower())})}}">{{article.typeArticle.name}}</a>
+            {% endif %}
+        </div>
+        {# </div> #}
+
+        <img class="mt-2 img-illustration" src="{{ vich_uploader_asset(article, 'photoFile') }}" alt="{{ article.title }}">
+        <div class="illustration title-page">{{article.title}}</div>
+        <div class="subtitle-page">Publié le
+            {{article.publishedAt| date('d/m/Y')}}</div>
+        <hr>
+        <div class="content">{{article.content | raw}}</div>
+        {# <div class="author"> Posté par {% if article.author is not null %}{{ article.author.username }}{% else %} un auteur anonyme.{% endif %}</div> #}
+
+        <br>
+        {% if article.pdfs is defined and article.pdfs is not empty %}
+        <hr>
+        {# <div style="border:1px solid grey;padding:10px"> #}
+            <div class="subtitle-page">Télécharger en pdf:</div>
+            <ul>
+            {% for fichier in article.pdfs %}
+                <li>
+                    <a href="{{ asset(pdf_article_url ~ fichier.fileName) }}">{{fichier.name}}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {# </div> #}
+        {% endif %}
+        <hr>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row">
+            {% if article.linkprev is not null %}
+                <a href="{{ path('site_buildpageid',{'slug':'article', 'id': (article.linkprev.slug is empty? article.linkprev.id:article.linkprev.slug)}) }}">
+                    <span class="subtitle-page pt-1"><<<&nbsp;</span>
+                    <img class="icon-illustration" src="{{ vich_uploader_asset(article.linkprev, 'photoFile') }}" alt="{{ article.linkprev.title }}">
+                    {{ article.linkprev.title }}
+                </a>
+            {% endif %}
+            </div>
+            <div class="d-flex flex-row nextarticle">
+            {% if article.linknext is not null and article.linknext is not empty %}
+                <a href="{{ path('site_buildpageid',{'slug':'article', 'id': (article.linknext[0].slug is empty? article.linknext[0].id:article.linknext[0].slug)}) }}">
+                    <img class="icon-illustration" src="{{ vich_uploader_asset(article.linknext[0], 'photoFile') }}" alt="{{ article.linknext[0].title }}">
+                    {{ article.linknext[0].title }}
+                    <span class="subtitle-page  pt-1">&nbsp;>>></span>
+                </a>
+            {% endif %}
+            </div>
+        </div>
+        <div class="comments mt-5">
+            <h5> Commentaires ({{comments|length}}):</h5>
+            {% if comments is empty %}
+                Aucun commentaire.
+            {% endif %}
+            {% for comment in comments %}
+				<div class="comment">
+					<div class="auteur">
+						{% if comment.author is not null %}
+							{{ comment.author.username }}
+						{% else %}
+							{{ comment.authorName }}
+						{% endif %}
+					</div>
+					<div class="date">
+						{{ comment.publishedAt| date() }}
+					</div>
+					<div class="title">
+						{{comment.title}}
+					</div>
+					<div class="content">
+						{{comment.content |nl2br }}
+					</div>
+				</div>
+            {% endfor %}
+            
+            <div class="mt-4"><hr>
+                <h5> Ajouter un commentaire: </h5>
+                {{ form_start(formComment) }}
+                    <div class="d-flex flex-row mb-2">
+                        {{ form_label(formComment.title, 'Titre', {'label_attr': {'class': 'mt-2'}} ) }}
+                        {{ form_widget(formComment.title, {'attr': {'class': 'ml-2'}}) }}
+                        {{ form_errors(formComment.title) }}
+                    </div>
+                    {{ form_row(formComment.content) }}
+                    <div class="d-flex flex-row">
+                        {{ form_label(formComment.authorName, null, {'label_attr': {'class': 'mt-2'}}) }}
+                        {{ form_widget(formComment.authorName, {'attr': {'class': 'ml-2'}}) }}
+                        {{ form_errors(formComment.authorName) }}
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        {{ form_widget(formComment.save, {'attr': {'class': 'btn-secondary mt-2'}}) }}
+                    </div>
+                {{ form_end(formComment) }}
+            </div>
+        </div>
+
+    {% else %}
+        <div>
+            Vous n'êtes pas autorisés à consulter cet article (id
+            {{article.id}})
+        </div>
+    {% endif %}
+{% else %}
+    <div>
+        Il n'y a pas d'article avec cet identifiant.
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@SiteBundle/Resources/public/css/article.css' %}
+	    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %} 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@SiteBundle/Resources/public/js/article.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

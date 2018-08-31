@@ -1,0 +1,19 @@
+{# Block Names of Form/Type/aClassType are a_class_widget #}
+{% block file_array_widget %} 
+{# {{dump("BuilderBundle/Resources/views/Form/fields.html.twig block file_array_widget")}} #}
+        {# ... #}
+        {# store the prototype on the data-prototype attribute #}
+        <div id="file_array-field-list"
+            data-prototype="{{ form_widget(form.vars.prototype)|e }}"
+            data-widget-tags="{{ ' <div class="col-md-offset-1"><div class="col-sm-4"></div></div>'|e }}">
+                {% for existingchild in form %}
+                    {# {{dump(existingchild)}} #}
+                    <div class="col-md-offset-1">
+                        {{ form_errors(existingchild) }}
+                        {{ form_widget(existingchild) }}
+                    </div>
+                {% endfor %}
+        </div>
+        <a href="#" class="btn btn-default col-md-offset-1 add-another-file_array-widget" data-list="#file_array-field-list">Ajouter un fichier</a>
+
+{% endblock %}

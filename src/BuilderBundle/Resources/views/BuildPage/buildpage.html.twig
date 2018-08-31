@@ -1,0 +1,108 @@
+{% extends "BuilderBundle::builder_layout.html.twig" %}
+{# {% extends template_repo ~ '/views/templates/default.html.twig' %}
+{% extends 'builder_base_layout.html.twig' %}
+{% extends 'templates/default.html.twig' %} #}
+{# {% block title %}{{ page.name }}{% endblock %} #}
+{% if page %}
+    {% if page.seoTitle != '' %}
+        {% set title = page.seoTitle %}
+    {% endif %}
+    {% if title is not defined %}
+        {% set title = page.name %}
+    {% endif %}
+    {% if imageHero_exists %}
+        {% set imageHero = 'Visuel' ~ page.slug ~ '.jpg' %}
+    {% endif %}
+    {# Nom de l'image pour le hero de la page #}
+{% else %}
+  {% set title = "Page inexistante" %}
+  {% set imageHero = 'VisuelContact.jpg' %}
+{% endif %}
+
+
+
+{% block seoDescription %}
+    {% if page and page.seoDesc and page.seoDesc != '' %}"{{ page.seoDesc }}"{% else %}{{ parent() }}
+    {% endif %}
+{% endblock %}
+{% block seoKeywords %}
+    {% if page and page.seoKeywords and page.seoKeywords != '' %}"{{ page.seoKeywords }}"{% else %}{{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {# <h2>{% if page %}{{ page.name }}{% else %}Page inexistante{% endif %}</h2> #}
+    {% if page is null %}
+        {{ include('BuilderBundle:BuildPage:notexists.html.twig') }}
+    {% else %}
+        {% if notallowed %}
+            {{ include('BuilderBundle:BuildPage:notallowed.html.twig') }}
+        {% else %}
+            {% for pcontent in pageContents %}
+                {% if 'MAIN' in pcontent.position %}
+                    {{ block('maincontent') }}
+                {% else %}
+                    {{ block('acontent') }}
+                {% endif %}
+            {% else %}
+                <p>Pas de contenu trouvé.</p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block acontent %}
+    {{ block('buildcontent') }}
+{% endblock %}
+
+{% block maincontent %}
+    {{ block('buildcontent') }}
+{% endblock %}
+
+{% block buildcontent %}
+    {# <div> CONTENU {{pcontent.content.title}} </div> #}
+    {% set access = false %}
+    {# Si des droits spécifiques sont demandés: #}
+    {% for group in pcontent.content.rights %}
+        {% if group.name == 'All' %}
+            {% set access = true %}
+            {# <div> Access pour tous si group.name = Users </div> #}
+        {% else %}
+            {% set role = 'ROLE_' ~ group.name | upper %}
+            {# <div> role need = {{role}} </div> #}
+            {% if is_granted(role) %}
+                {# L'utilisateur courant à le role demandé #}
+                {% set access = true %}
+                {# <div> user has role </div> #}
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {# Si pas de droits spécifiques demandés #}
+        {% set access = true %}
+    {% endfor %}
+    {# <div> Final access = {{access}}</div> #}
+    {% if access %}
+
+        {% block content %}
+        {{ render(controller("BuilderBundle:Builder/BuildContent:buildContent", {'pageContent': pcontent, 'request': request, 'id':id })) }}
+        {% endblock %}
+    {% else %}
+        <div>
+            Contenu {{pcontent.content.title}} non accessible!
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% if page %}<link rel="stylesheet" href="{{ page.class }}"/>{% endif %}
+    {# ICI AJOUTER css de {{page.class}} #}
+    {# Possible aussi d'ajouter un fichier js #}
+    {% stylesheets '@BuilderBundle/Resources/public/css/buildpage.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %} 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

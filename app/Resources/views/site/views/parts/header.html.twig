@@ -1,0 +1,30 @@
+<header class="header">
+  <div class="container">
+    <div class="brand">
+      {# Logo #}
+      <a href="{{path('homepage')}}" class="logo">
+        <span>Perso</span>
+        <span>Site perso pour créer un site</span>
+      </a>
+      {# Fin du Logo #}
+      <a href="#" class="toggleMenu hidden-md hidden-lg">
+        <i class="glyphicon glyphicon-menu-hamburger"></i>
+        <span class="visible-sm">Menu</span>
+      </a>
+    </div>
+    <nav class="mainNav"> {# Menu principal #}
+      <span class="closeMenu visible-xs"><i class="glyphicon glyphicon-remove"></i></span>
+      <a href="#" class="closeMenu--sm hidden-xs hidden-md hidden-lg">
+        <i class="glyphicon glyphicon-remove"></i>
+        <span class="visible-sm">Menu</span>
+      </a>
+      <ul>
+        {# Liens pour le menu principal #}
+        {{ render(controller("BuilderBundle:Builder/BuildContent:menuPrincipal", {'menuName': 'Principal'})) }}
+        {# Pour l'integrateur du design desativer le render controller ci-dessus et activer l'include ci-dessous #}
+        {# {% include  template_repo ~ "/views/parts/main-menu.html.twig" %}  #}
+      </ul>
+    </nav>
+  </div>
+</header>
+{# {{menulinks|json_encode()}} #}

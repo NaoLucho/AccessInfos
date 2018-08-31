@@ -1,0 +1,10 @@
+{% extends "BuilderBundle::builder_layout.html.twig" %}
+
+{% block body %}
+    <h1>Accès refusés</h1>
+
+    <p>
+        Vous n'êtes pas autorisé à accéder à cette page.
+    </p>
+    <a href="{{ path('homepage') }}">Retour à l'accueil</a>.
+{% endblock %}

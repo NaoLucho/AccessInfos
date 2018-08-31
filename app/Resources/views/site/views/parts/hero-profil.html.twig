@@ -1,0 +1,16 @@
+<div class="page-hero hero-profil">
+  <img src="{{imageHero is defined ? asset( template_repo ~ '/assets/images/' ~ imageHero ): asset( template_repo ~ '/assets/images/VisuelPresse.jpg' )}}" alt="{{title is defined ? title}}">
+  <div class="profil-photo">
+    <div class="container">
+      <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="{{title}}" class="img-circle">
+    </div>
+  </div>
+  {% if title is defined %}
+  <div class="page-hero__title">
+    <div class="container">
+      <h1>{{title}} <small>Observateur de lombrics</small></h1>
+      <div class="registery-date">Inscrit depuis le 20/01/2018</div>
+    </div>
+  </div>
+  {% endif %}
+</div>

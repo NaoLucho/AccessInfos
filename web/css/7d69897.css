@@ -1,0 +1,55 @@
+.content{
+    line-height: 2rem;
+}
+
+.comments{
+    width: 100%;
+    margin-top: 20px;
+    /* border: 1px solid #666; */
+    background-color: #EEE;
+    border-radius: 10px;
+    padding: 10px;
+    color: #666;
+}
+.comment{
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #FFF;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 5px;
+}
+.comment:last-child{
+    margin-bottom: 0px;
+}
+
+.comment .auteur{
+    grid-column: 1 / 1;
+    grid-row: 1;
+    text-align: center;
+}
+.comment .date {
+    grid-column: 1 / 1;
+    grid-row: 2;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+.comment .title {
+    grid-column: 2 / end;
+    grid-row: 1;
+}
+.comment .content{
+    grid-column: 2 / end;
+    grid-row: 2;
+    color: #222;
+}
+
+.control-label{
+    width: 100px;
+}
+
+.nextarticle{
+    float: right;
+}

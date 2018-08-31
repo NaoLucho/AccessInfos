@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {# En attente de la guideline pour les meta-datas #}
+  <title>{% block title %}Site Builder{% endblock %}</title>
+	<meta name="description" content={% block seoDescription %}"Site Builder, Créateur de site, par Louis Watrin"{% endblock %} />
+  <meta name="keywords" content={% block seoKeywords %}"default, keywords"{% endblock %} />
+  
+  {# Include du fichier style #}
+  <link rel="stylesheet" href="{{ asset('assets/css/open.min.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/js/chosen_v1.8.2/chosen.min.css') }}" />
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+  
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  {% block stylesheets %}
+  {% endblock %}
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ asset('assets/css/select2/select2_bootstrap.css') }}" />
+</head>
+<body>
+
+  {# Include du header (logo + navigation) #}
+  {% block headermenu %}
+    {% include "parts/header.html.twig"  with {'defaultMenu': 'Principal'}  %}
+  {% endblock %}
+
+  {% block headerbanner %}
+    {# Header-mea = Bloc photo + titre - A titre d'exemple pour le moment #}
+    {# <div class="header-mea">
+      <img src="{{asset('assets/images/header_001.jpg')}}" alt="Titre de l'image">
+    </div> #}
+    {# Fin du header-mea #}
+    {{ render(controller("BuilderBundle:Builder/BuildContent:buildDefaultContent", {'selectposition': 'Header'})) }}
+  {% endblock %}
+
+  <main role="main">
+    <div class="container content">
+      {% block messages %}
+        {% if app.request.hasPreviousSession %}
+          {% for type, messages in app.session.flashBag.all %}
+            {% for message in messages %}
+              <div class="{{ type }}">
+                {{ message|trans({}, 'FOSUserBundle') }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+        {% endif %}
+      {% endblock %}
+    
+      {# Apparait seulement si fos_user est appelé #}
+      
+      
+      {% block fos_user_content %}
+      {% endblock fos_user_content %}
+      <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="login">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          {% block fos_user_login %}{% endblock fos_user_login %}
+        </div>
+        </div>
+      </div>
+
+      {% block body %}{% endblock %}
+    </div>
+  </main>
+
+  {# Include du footer (newsletter + navigation) #}
+  {% block footer %}
+    {% include "parts/footer.html.twig"  with {'defaultContent': 'Footer'} %}
+  {% endblock %}
+
+  {# Include JS scripts #}
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    
+    <script src="//code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    {# <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> #}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="{{ asset('assets/js/open.min.js') }}"></script>
+    <script src="{{ asset('assets/js/chosen_v1.8.2/chosen.jquery.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    {% javascripts '@ApplicationSonataUserBundle/Resources/public/js/login/login.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+  {% endblock %}
+</body>
+</html>

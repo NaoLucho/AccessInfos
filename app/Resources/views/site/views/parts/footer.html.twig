@@ -1,0 +1,29 @@
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-8 col-sm-offset-4 newsletter">
+        <p>Je m'abonne à la newsletter</p>
+        {# Mise en place du formulaire pour l'inscription à la newsletter #}
+        <form action="#">
+          <div class="form-group">
+            <input type="email" class="form-control" id="inscription-newsletter" placeholder="email@domaine.fr">
+            <input type="submit" value="OK">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <nav>
+          <ul>
+            {# Les liens pour la navigation du footer #}
+            {{ render(controller("BuilderBundle:Builder/BuildContent:menuFooter", {'menuName': 'Footer'})) }}
+            {# Pour l'integrateur du design desativer le render controller ci-dessus et activer l'include ci-dessous #}
+            {# {% include  template_repo ~ "/views/parts/footer-menu.html.twig" %}  #}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+{# {{footerlinks|json_encode()}} #}
