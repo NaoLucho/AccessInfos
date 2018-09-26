@@ -32,29 +32,16 @@
 }
 
 .list-items .illustration img{
-    max-width: 150px;
+    width: 150px;
 }
 
 .list-items .illustration{
+    min-width: 150px;
     margin-bottom: 4px;
 }
 
 .list-items .icon img{
     max-width: 50px;
-}
-
-.div-illustration{
-    width: 32px;
-}
-.icon-illustration{
-    max-height: 25px;
-    max-width: 30px;
-}
-
-
-.info-date{
-    font-size: 12px;
-    margin-top: 4px;
 }
 
 .list-items .item{
