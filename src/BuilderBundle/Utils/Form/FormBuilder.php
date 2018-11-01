@@ -417,6 +417,9 @@ class FormBuilder
                         break;
                     case "TextEditor":
                         $type = CKEditorType::class;
+                        $options['config'] =  array(
+                            'height'    => '600px'
+                        );
                         break;
                     case "Rights":
                         $usebuilder = false;
