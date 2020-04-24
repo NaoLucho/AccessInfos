@@ -18,13 +18,13 @@
     {% if items is defined %}
         {% for item in items %} 
         {# {dump(item)}} #}
-            {% if item is iterable %}
+            {% if item is iterable and item[0] is defined %}
                 {% set item = item[0] %}
             {% endif %}
             <div class="item row">
                 <div class="illustration col-3" >
                     <a class="" href="{{path('site_buildpageid',{'slug':'article','id': (item.slug is empty? item.id:item.slug) })}}">
-                        <img src="{{ vich_uploader_asset(item, 'photoFile') }}" alt="{{ item.title }}">
+                        <img src="{{ vich_uploader_asset(item, 'photoFile', 'SiteBundle\\Entity\\Article') }}" alt="{{ item.title }}">
                     </a>
                 </div>
                 <div class="info col">
@@ -35,7 +35,9 @@
                         Publié le {{item.publishedAt| date('d/m/Y')}}
                     </div>
                     <div class="content">
+                        {% if item.content is defined %}
                         {{item.content| striptags | slice(0,400) | raw }} 
+                        {% endif %}
                     </div>
                     <a class="" href="{{path('site_buildpageid',{'slug':'article','id':(item.slug is empty? item.id:item.slug) })}}"> > lire l'article</a>
                 </div>

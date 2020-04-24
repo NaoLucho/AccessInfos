@@ -29,6 +29,17 @@ use Sonata\CoreBundle\Form\Type\CollectionType;
 
 class ArticleAdmin extends AbstractAdmin
 {
+    protected $datagridValues = [
+
+        // display the first page (default = 1)
+        '_page' => 1,
+
+        // reverse order (default = 'ASC')
+        '_sort_order' => 'DESC',
+
+        // name of the ordered field (default = the model's id field, if any)
+        '_sort_by' => 'publishedAt',
+    ];
 
     //to add template for fields
     public function getTemplate($name)

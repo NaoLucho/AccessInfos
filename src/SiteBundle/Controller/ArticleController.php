@@ -181,17 +181,26 @@ class ArticleController extends Controller
         $qb = $qb->andwhere('entity.isActive = true');
 
 
-        $qb = $qb->addOrderBy('entity.'.$orderProp, $orderBy);
-
         
+        
+        
+        $qb2 = clone $qb;
+        $qb2->select('count(entity.id)');
+        //dump($qb2);
+        $totalItems = $qb2->getQuery()->getSingleScalarResult();
+        //dump($totalItems);
 
-        $paginArticle = new \Doctrine\ORM\Tools\Pagination\Paginator($qb);
-        $totalItems = count($paginArticle);
+        // $paginArticle = new \Doctrine\ORM\Tools\Pagination\Paginator($qb);
+        // $totalItems = count($paginArticle);
 
+        $qb->select('entity.id, entity.title, entity.publishedAt, entity.photoName, entity.slug, entity.photoSize,'. $qb->expr()->substring("entity.content", 1, 450) .' as content');
+
+        $qb = $qb->addOrderBy('entity.'.$orderProp, $orderBy);
+        
         $qb->setFirstResult($nbbypage * ($numpage - 1)) // set the offset
             ->setMaxResults($nbbypage);
         $items = $qb->getQuery()->getResult();
-
+        //dump($items);
 
 
         $pages = ceil($totalItems / $nbbypage);
@@ -223,6 +232,8 @@ class ArticleController extends Controller
         //$articlesByYear[$year] = $results;
         for ($year = date('Y'); $year >= $oldestYear; $year--) {
             $qb = $em->getRepository('SiteBundle:Article')->createQueryBuilder('article');
+            $qb->select('article.id, article.title, article.publishedAt, article.photoName, article.slug, article.photoSize, typeArticle.name as typeArticleName');
+            
             $qb = $qb->where('YEAR(article.publishedAt) = :year');
             $qb = $qb->setParameter('year', $year);
             $qb = $qb->leftJoin('article.typeArticle', 'typeArticle');
@@ -230,9 +241,11 @@ class ArticleController extends Controller
             
             $qb = $qb->addOrderBy('typeArticle.order', 'ASC');
             $qb = $qb->addOrderBy('article.publishedAt', 'ASC');
+
+            
             
             $results = $qb->getQuery()->getResult();
-            //dump($results);
+            // dump($results);
             $articlesByYear[$year] = $results;
         }
         //dump($articlesByYear);
@@ -366,6 +379,11 @@ class ArticleController extends Controller
 
         $qb = $qb->andwhere('entity.isActive = true');
         $qb = $qb->addOrderBy('entity.publishedAt', 'DESC');
+
+        // $qb2 = clone $qb;
+        // $qb2->select('count(entity.id)');
+
+        // $totalItems = $qb2->getQuery()->getSingleScalarResult();
 
         $paginArticle = new \Doctrine\ORM\Tools\Pagination\Paginator($qb);
         $totalItems = count($paginArticle);
